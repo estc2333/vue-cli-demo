@@ -1,4 +1,4 @@
-# axios-demo
+# vue-cli & axios-demo
 
 ## Project setup
 ```
