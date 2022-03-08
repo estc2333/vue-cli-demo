@@ -8,8 +8,26 @@ export default new Router({
     routes: [
         {
             path: '/',
-            name: 'Shopping',
-            component: () => import('../views/Shopping'),
-        }
+            name: 'homepage',
+            component: () => import('../views/Homepage'),
+            redirect: { name: 'shop' },
+            children: [
+                {
+                    name: 'shop',
+                    path: '/shop',
+                    component: () => import('/src/views/Shop')
+                },
+                {
+                    name: 'dashBoard',
+                    path: '/dashBoard',
+                    component: () => import('/src/views/DashBoard')
+                },
+                {
+                    name: 'agent',
+                    path: '/agent',
+                    component: () => import('/src/views/Agent')
+                },
+            ]
+        },
     ]
 })
