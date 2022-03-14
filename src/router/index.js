@@ -27,6 +27,11 @@ export default new Router({
                     path: '/agent',
                     component: () => import('/src/views/Agent')
                 },
+                {
+                    name: 'todos',
+                    path: '/todos',
+                    component: () => import('/src/views/Todos')
+                },
             ]
         },
     ]

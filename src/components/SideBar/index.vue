@@ -2,7 +2,7 @@
   <div class="nav-list">
     <li v-for="(nav, index) in navList"
         :key="nav.title"
-        :class="index === currentIndex ? ('active'+' '+'nav') : 'nav'"
+        :class="index === currentIndex ? 'active' : ''"
         @click="gotoPage(nav, index)"
     >
       <i :class='nav.icon'></i>
