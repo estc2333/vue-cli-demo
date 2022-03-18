@@ -1,9 +1,9 @@
 <template>
   <div class="nav-list">
-    <li v-for="(nav, index) in navList"
+    <li v-for="nav in navList"
         :key="nav.title"
-        :class="index === currentIndex ? 'active' : ''"
-        @click="gotoPage(nav, index)"
+        :class="{active: isActive(nav)}"
+        @click="gotoPage(nav)"
     >
       <i :class='nav.icon'></i>
       {{ nav.title }}
@@ -16,19 +16,32 @@ export default {
   name: "SideBar",
   props: {
     navList: {
-      type: Array
+      type: Array,
+      default: () => ([]),
+    },
+    defaultActive: {
+      type: String,
+      default: '',
+    },
+  },
+  watch: {
+    '$route': function (route) {
+      this.active = route.name
     }
   },
   data() {
     return {
-      currentIndex: 0,
+      active: this.defaultActive || this.navList[0].routeName,
     }
   },
   methods: {
     gotoPage(nav, index) {
       this.currentIndex = index;
-      this.$router.push({name: nav.routeName})
-    }
+      this.$router.push({name: nav.routeName[0]})
+    },
+    isActive (nav) {
+      return nav.routeName.includes(this.active)
+    },
   }
 }
 </script>

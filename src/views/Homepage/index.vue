@@ -1,6 +1,6 @@
 <template>
   <div id="page-wrapper">
-    <side-bar class="menu" :navList="navList" />
+    <side-bar class="menu" :navList="navList" :default-active="defaultActive" />
     <div class="content">
       <router-view></router-view>
     </div>
@@ -33,7 +33,10 @@ export default {
           routeName: ['agent'],
         },
       ])
-    }
+    },
+    defaultActive () {
+      return this.$route.name
+    },
   },
 }
 </script>
