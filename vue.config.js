@@ -1,5 +1,17 @@
+const { VueLoaderPlugin } = require('vue-loader')
 
 module.exports = {
+    module: {
+        rules: [
+            {
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }
+        ]
+    },
+    plugins: [
+        new VueLoaderPlugin()
+    ],
     // 基本路径 baseURL已经过时
     publicPath: './',
     // 输出文件目录
@@ -51,6 +63,7 @@ module.exports = {
         // https: false,
         // hotOnly: false,
         // before: app => {}
+        hot: true,
     },
     // 第三方插件配置
     pluginOptions: {

@@ -1,9 +1,14 @@
 <template>
-  <div class="aa">
+  <div class="shop-wrapper">
     <div class="header">
       <img src="../../assets/img/WechatIMG330.png">
     </div>
-    <div>products</div>
+    <section class="products-container">
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+      <div>4</div>
+    </section>
   </div>
 </template>
 
@@ -14,12 +19,28 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .aa {
+  .shop-wrapper {
     width: 100%;
     height: 100%;
-    img {
-      width: 100%;
-      height: 28vh;
+    .header {
+      height: 20vh;
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .products-container {
+      display: flex;
+      padding: 10px;
+      div{
+        width: 25%;
+        background-color: #C1F4C5;
+        min-height: 200px;
+        height: calc(100% / 4);
+      }
+      div + div {
+        margin-left: 10px;
+      }
     }
   }
 </style>
