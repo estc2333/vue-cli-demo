@@ -8,10 +8,12 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "babel-loader": "8",
     "core-js": "^3.6.5",
     "lodash-es": "^4.17.21",
     "scss": "^0.2.4",
     "vue": "^2.6.11",
+    "vue-loader": "15",
     "vue-router": "^3.5.2",
     "vuex": "^3.6.2"
   },
@@ -25,8 +27,8 @@
     "node-sass": "^4.9.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^3.2.1",
-    "vue-loader": "^17.0.0",
     "vue-template-compiler": "^2.6.11",
+    "webpack": "4",
     "webpack-cli": "^4.8.0"
   },
   "eslintConfig": {

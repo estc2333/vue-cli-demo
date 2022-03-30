@@ -1,17 +1,9 @@
-const { VueLoaderPlugin } = require('vue-loader')
+// const { VueLoaderPlugin } = require('vue-loader')
+const webpack = require('webpack')
+const path = require('path');
+const resolve = (dir) => path.join(__dirname, '.', dir);
 
 module.exports = {
-    module: {
-        rules: [
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader'
-            }
-        ]
-    },
-    plugins: [
-        new VueLoaderPlugin()
-    ],
     // 基本路径 baseURL已经过时
     publicPath: './',
     // 输出文件目录
@@ -23,8 +15,21 @@ module.exports = {
     // compiler: false,
     // webpack配置
     // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
-    chainWebpack: () => {},
-    configureWebpack: () => {},
+    chainWebpack: config => {
+        config.resolve.alias
+            .set('@', resolve('src'))
+            .set('assets', resolve('src/asset'))
+        config.module
+            .rule('vue')
+            .use('vue-loader')
+            .end()
+    },
+    configureWebpack: {
+        plugins: [
+            // new VueLoaderPlugin()
+            new webpack.HotModuleReplacementPlugin()
+        ]
+    },
     // vue-loader 配置项
     // https://vue-loader.vuejs.org/en/options.html
     // vueLoader: {},

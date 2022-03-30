@@ -4,7 +4,7 @@
       <img src="../../assets/img/WechatIMG330.png">
     </div>
     <section class="products-container">
-      <div class="product">1</div>
+      <div class="product" @click="test">1</div>
       <div class="product">2</div>
       <div class="product">3</div>
       <div class="product">4</div>
@@ -28,6 +28,12 @@
 <script>
 export default {
   name: "shop",
+  methods: {
+    test () {
+      console.log('qq')
+          ['1', '2', '3'].forEach(item => (console.log(item)))
+    },
+  },
 }
 </script>
 
