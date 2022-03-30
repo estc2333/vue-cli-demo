@@ -23,6 +23,10 @@ module.exports = {
             .rule('vue')
             .use('vue-loader')
             .end()
+        config.module
+            .rule("js")
+            .test(/\.m?jsx?$/)
+            .use('babel-loader')
     },
     configureWebpack: {
         plugins: [

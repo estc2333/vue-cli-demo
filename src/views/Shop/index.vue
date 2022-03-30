@@ -28,10 +28,14 @@
 <script>
 export default {
   name: "shop",
+  data() {
+    return {
+      arr: ['a', 'b', 'c']
+    }
+  },
   methods: {
     test () {
-      console.log('qq')
-          ['1', '2', '3'].forEach(item => (console.log(item)))
+      ['1', '2'].forEach(item => (console.log(item)))
     },
   },
 }
