@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     test () {
-      ['1', '2'].forEach(item => (console.log(item)))
+      this.arr.forEach(item => (console.log(item)))
     },
   },
 }

@@ -1,4 +1,3 @@
-// const { VueLoaderPlugin } = require('vue-loader')
 const webpack = require('webpack')
 const path = require('path');
 const resolve = (dir) => path.join(__dirname, '.', dir);
@@ -30,7 +29,6 @@ module.exports = {
     },
     configureWebpack: {
         plugins: [
-            // new VueLoaderPlugin()
             new webpack.HotModuleReplacementPlugin()
         ]
     },
