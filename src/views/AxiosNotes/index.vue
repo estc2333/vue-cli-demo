@@ -14,12 +14,17 @@
         delete
         <p @click="deleteContact1">可以把参数放在url，也可以放请求体，要和后端沟通好</p>
       </li>
+      <li  @click="cancel"> cancel request</li>
     </section>
   </div>
 </template>
 
 <script>
 import contactsAPI from "../../api/contacts";
+import axios from "axios";
+
+let source = axios.CancelToken.source() // 声明一个带有取消请求的axios实例
+
 export default {
   name: "axiosNotes",
   methods: {
@@ -37,6 +42,22 @@ export default {
     },
     deleteContact1 () {
       contactsAPI.deleteContact1({contact: 'dddd'}).then(data => console.log(data))
+    },
+    // https://github.com/axios/axios
+    cancel() {
+      axios.get('fakeURL', {
+        cancelToken: source.token,
+      })
+          .then(res => console.log(res))
+          .catch(err => {
+                if (axios.isCancel(err)) {
+                  console.log('Request canceled:----', err.message);
+                } else {
+                  // handle error
+                }
+              }
+          )
+      source.cancel('Operation canceled by the user.') // 参数可选, 参数取消后会进入上面的catch里
     },
   },
 }
