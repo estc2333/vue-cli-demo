@@ -18,4 +18,15 @@ request.interceptors.request.use(config => {
         return Promise.reject(error)
     }
 )
+request.interceptors.response.use(res => {
+        return res
+    },
+    error => {
+    // 根据http状态码统一处理响应错误
+        if(error.response.status === 401) {
+            // 跳转页面或者弹窗提示
+        }
+        return Promise.reject(error)
+    }
+)
 export default request
