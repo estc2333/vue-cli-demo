@@ -37,6 +37,11 @@ export default new Router({
                     path: '/todos',
                     component: () => import('/src/views/Todos')
                 },
+                {
+                    name: 'axiosNotes',
+                    path: '/axiosNotes',
+                    component: () => import('/src/views/AxiosNotes')
+                },
             ]
         },
     ]
