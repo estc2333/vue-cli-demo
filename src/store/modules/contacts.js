@@ -7,11 +7,15 @@ const state = {
 
 const actions = {
     getContacts ({commit}) {
-        console.log('s')
         return ContactAPIs.getContactList()
             .then(res => {
                 commit(mutationTypes.GET_CONTACT_LIST, res)
             })
+            .catch(err => console.log(err))
+    },
+    addContact ({commit}, {contactInfo}) {
+        console.log(contactInfo)
+        return ContactAPIs.addContact(contactInfo)
             .catch(err => console.log(err))
     }
 }
