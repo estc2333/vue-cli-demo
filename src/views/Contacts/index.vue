@@ -67,13 +67,14 @@ export default {
     },
     onAdd() {
       this.addContact({contactInfo: this.contactInfo})
+          .then(() => this.getContactList())
     },
     onEdit() {
 
     },
     onDelete(contactId) {
-      console.log(contactId, 'i')
       this.deleteContact({id: contactId})
+          .then(() => this.getContactList())
     },
 
   },
