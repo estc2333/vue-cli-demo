@@ -18,7 +18,7 @@ const actions = {
 
 const mutations = {
     [mutationTypes.GET_CONTACT_LIST] (state, payload) {
-        state.list = payload
+        state.list = payload.data
     }
 }
 
