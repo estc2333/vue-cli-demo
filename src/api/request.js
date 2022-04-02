@@ -4,7 +4,7 @@ import axios from 'axios'
 
 // 实例配置
 const config = {
-    baseURL: 'http://localhost:8080/', // 请求域名，基本地址
+    baseURL: 'http://localhost:9000/api', // 请求域名，基本地址
     timeout: 3000,
     headers: '' // 请求头，带token传给后端
 }
