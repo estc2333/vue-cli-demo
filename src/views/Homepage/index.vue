@@ -23,9 +23,9 @@ export default {
           routeName: ['shop'],
         },
         {
-          title: 'DASHBOARD',
+          title: 'CONTACTS',
           icon: 'icon-dashboard',
-          routeName: ['dashBoard'],
+          routeName: ['contacts'],
         },
         {
           title: 'AGENT',

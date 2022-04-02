@@ -23,9 +23,9 @@ export default new Router({
                     component: () => import('/src/views/Shop')
                 },
                 {
-                    name: 'dashBoard',
-                    path: '/dashBoard',
-                    component: () => import('/src/views/DashBoard')
+                    name: 'contacts',
+                    path: '/contacts',
+                    component: () => import('/src/views/Contacts')
                 },
                 {
                     name: 'agent',

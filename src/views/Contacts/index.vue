@@ -1,15 +1,15 @@
 <template>
-  <div>dashboard
-    <el-button type="primary">123</el-button>
+  <div>contacts
+    <el-button type="primary">add</el-button>
   </div>
 </template>
 
 <script>
 import {Button} from 'element-ui'
 export default {
-  name: "dashBoard",
+  name: "contacts",
   components: {
-    ElButton: Button,
+    [Button.name]: Button,
   },
 }
 </script>
