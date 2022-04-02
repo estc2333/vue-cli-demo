@@ -13,9 +13,13 @@ const actions = {
             })
             .catch(err => console.log(err))
     },
-    addContact ({commit}, {contactInfo}) {
-        console.log(contactInfo)
+    addContact ({_}, {contactInfo}) {
         return ContactAPIs.addContact(contactInfo)
+            .catch(err => console.log(err))
+    },
+    deleteContact ({_}, contactId) {
+        console.log(contactId, 'store')
+        return ContactAPIs.deleteContact(contactId)
             .catch(err => console.log(err))
     }
 }
