@@ -45,7 +45,7 @@ export default {
     // https://github.com/axios/axios
     cancel() {
       let source = axios.CancelToken.source() // 声明一个带有取消请求的axios实例
-      axios.get('fakeURL', {
+      axios.get('fakeURL', { // 在请求的config里带上token
         cancelToken: source.token,
       })
           .then(res => console.log(res))
