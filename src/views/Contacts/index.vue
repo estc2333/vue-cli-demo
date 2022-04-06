@@ -22,7 +22,7 @@
           label="操作"
           width="280">
         <template slot-scope="scope">
-          <el-button type="text" size="mini" @click="onEdit">编辑</el-button>
+          <el-button type="text" size="mini" @click="onEdit(scope.row.id)">编辑</el-button>
           <el-button type="text" size="mini" @click="onDelete(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
@@ -60,6 +60,7 @@ export default {
     ...mapActions('contacts', [
         'getContacts',
         'addContact',
+        'editContact',
         'deleteContact',
     ]),
     getContactList() {
@@ -70,7 +71,8 @@ export default {
           .then(() => this.getContactList())
     },
     onEdit() {
-
+      this.editContact({contactInfo: this.contactInfo})
+          .then(() => this.getContactList())
     },
     onDelete(contactId) {
       this.deleteContact({id: contactId})

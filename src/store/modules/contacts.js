@@ -17,6 +17,10 @@ const actions = {
         return ContactAPIs.addContact(contactInfo)
             .catch(err => console.log(err))
     },
+    editContact ({_}, contactInfo) {
+        return ContactAPIs.editContact(contactInfo)
+            .catch(err => console.log(err))
+    },
     deleteContact ({_}, contactId) {
         return ContactAPIs.deleteContact(contactId)
             .catch(err => console.log(err))
