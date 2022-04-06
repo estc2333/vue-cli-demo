@@ -1,5 +1,5 @@
 <template>
-  <el-form class="wrapper" label-width="120px" label-position="left">
+  <el-form class="wrapper" label-width="120px" label-position="left" @click="clickOutside">
     <el-form-item label="姓名" >
       <el-input v-model="form.name" size="medium"></el-input>
     </el-form-item>
@@ -45,11 +45,20 @@ export default {
     onSubmit() {
       this.$emit('submit', this.form)
     },
+    clickOutside(event) {
+      if (!event.target.closest('.wrapper')) {
+        this.$emit('hideModal')
+      }
+    }
   },
   mounted() {
     if(!isEmpty(this.contactInfo)) {
       this.form = {...this.form, ...this.contactInfo}
     }
+    window.addEventListener('mousedown', this.clickOutside)
+  },
+  destroyed() {
+    window.removeEventListener('mousedown', this.clickOutside)
   }
 }
 </script>
