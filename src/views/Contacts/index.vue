@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isEmpty(list)">contacts
+  <div v-if="!isEmpty(list)">
     <contact-modal
         v-if="isVisible"
         :contact-info="contactInfo"
@@ -7,7 +7,14 @@
         @hideModal="onHideModal"
     />
     <template v-else>
-      <el-table :data="list" style="width: 100%">
+      <div class="operation-btn">
+        <p type="primary" @click="onAdd">门店联系人</p>
+        <el-button type="primary" @click="onAdd">add</el-button>
+      </div>
+      <el-table
+          :data="list"
+          :header-cell-style="{ background: '#fafafa' }"
+      >
         <el-table-column prop="name" label="姓名" width="180" />
         <el-table-column prop="tel" label="电话" width="180" />
         <el-table-column prop="address" label="地址" />
@@ -18,7 +25,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-button type="primary" @click="onAdd">add</el-button>
     </template>
   </div>
 </template>
@@ -89,6 +95,14 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" >
+.operation-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background-color: white;
+  margin-bottom: 1px;
+}
 </style>

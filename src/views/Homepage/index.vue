@@ -50,14 +50,15 @@ export default {
 
   .menu {
     width: 200px;
-    background-color: #42b983;
+    background-color: #9cd0a1;
     height: 100%;
-    margin-right: 10px;
   }
   .content {
     flex: 1;
     height: 100%;
-    background-color: cadetblue;
+    background-color: #F3F3F3;
+    padding: 25px 20px;
+    overflow: auto;
   }
 
 }
