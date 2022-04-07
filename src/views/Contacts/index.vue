@@ -1,7 +1,7 @@
 <template>
   <div v-if="!isEmpty(list)">
     <contact-modal
-        v-if="isVisible"
+        v-if="true"
         :contact-info="contactInfo"
         @submit="onSubmit"
         @hideModal="onHideModal"
