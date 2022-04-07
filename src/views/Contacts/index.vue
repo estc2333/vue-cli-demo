@@ -1,15 +1,15 @@
 <template>
   <div v-if="!isEmpty(list)">
     <contact-modal
-        v-if="true"
+        v-if="isVisible"
         :contact-info="contactInfo"
         @submit="onSubmit"
         @hideModal="onHideModal"
     />
-    <template v-else>
-      <div class="operation-btn">
+    <template>
+      <div class="header">
         <p type="primary" @click="onAdd">门店联系人</p>
-        <el-button type="primary" @click="onAdd">add</el-button>
+        <el-button type="text" @click="onAdd">新增联系人</el-button>
       </div>
       <el-table
           :data="list"
@@ -95,8 +95,9 @@ export default {
 }
 </script>
 
-<style lang="scss" >
-.operation-btn {
+<style lang="scss" scoped>
+.header {
+  height: 45px;
   display: flex;
   justify-content: space-between;
   align-items: center;

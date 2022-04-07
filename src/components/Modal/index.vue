@@ -10,7 +10,7 @@
       <el-input v-model="form.address"></el-input>
     </el-form-item>
     <div class="btn">
-      <el-button plain @click="onSubmit">取消</el-button>
+      <el-button plain @click="hide">取消</el-button>
       <el-button type="primary" @click="onSubmit">确定</el-button>
     </div>
   </el-form>
@@ -50,9 +50,12 @@ export default {
     },
     clickOutside(event) {
       if (!event.target.closest('.wrapper')) {
-        this.$emit('hideModal')
+        this.hide()
       }
-    }
+    },
+    hide() {
+      this.$emit('hideModal')
+    },
   },
   mounted() {
     if (!isEmpty(this.contactInfo)) {
@@ -68,6 +71,9 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
+  z-index: 2;
+  //border: #9cd0a1 1px solid;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
   width: 30vw;
   background-color: white;
   padding: 40px 40px 25px 40px;
@@ -81,9 +87,9 @@ export default {
   }
 
   .btn {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 50px 0;
+    width: 100%;
+    display: inline-flex;
+    justify-content: center;
 
     button {
       height: 35px;
