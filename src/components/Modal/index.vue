@@ -1,23 +1,25 @@
 <template>
-  <el-form class="wrapper" label-width="120px" label-position="left" @click="clickOutside">
-    <el-form-item label="姓名">
-      <el-input v-model="form.name" size="medium"></el-input>
-    </el-form-item>
-    <el-form-item label="电话">
-      <el-input v-model="form.tel"></el-input>
-    </el-form-item>
-    <el-form-item label="地址">
-      <el-input v-model="form.address"></el-input>
-    </el-form-item>
-    <div class="btn">
-      <el-button plain @click="hide">取消</el-button>
-      <el-button type="primary" @click="onSubmit">确定</el-button>
-    </div>
-  </el-form>
+  <el-dialog :visible.sync="isVisible" :title="title">
+    <el-form class="wrapper" label-width="120px" label-position="left" @click="clickOutside">
+      <el-form-item label="姓名">
+        <el-input v-model="form.name" size="medium"></el-input>
+      </el-form-item>
+      <el-form-item label="电话">
+        <el-input v-model="form.tel"></el-input>
+      </el-form-item>
+      <el-form-item label="地址">
+        <el-input v-model="form.address"></el-input>
+      </el-form-item>
+      <div class="btn">
+        <el-button plain @click="hide">取消</el-button>
+        <el-button type="primary" @click="onSubmit">确定</el-button>
+      </div>
+    </el-form>
+  </el-dialog>
 </template>
 
 <script>
-import {Button, Input, TableColumn, Form, FormItem} from 'element-ui'
+import {Button, Input, TableColumn, Form, FormItem, Dialog} from 'element-ui'
 import {isEmpty} from 'lodash-es'
 
 export default {
@@ -28,11 +30,20 @@ export default {
     [TableColumn.name]: TableColumn,
     [Form.name]: Form,
     [FormItem.name]: FormItem,
+    [Dialog.name]: Dialog,
   },
   props: {
     contactInfo: {
       type: Object,
       default: () => ({}),
+    },
+    isVisible: {
+      type: Boolean,
+      default: false,
+    },
+    title: {
+      type: String,
+      default: '',
     },
   },
   data() {
@@ -72,15 +83,8 @@ export default {
 <style scoped lang="scss">
 .wrapper {
   z-index: 2;
-  //border: #9cd0a1 1px solid;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
-  width: 30vw;
   background-color: white;
   padding: 40px 40px 25px 40px;
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -40%);
 
   .el-input {
     width: 300px;

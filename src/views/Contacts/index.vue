@@ -2,14 +2,16 @@
   <div v-if="!isEmpty(list)">
     <contact-modal
         v-if="isVisible"
+        :isVisible="isVisible"
         :contact-info="contactInfo"
+        :title="title"
         @submit="onSubmit"
         @hideModal="onHideModal"
     />
     <template>
       <div class="header">
-        <p type="primary" @click="onAdd">门店联系人</p>
-        <el-button type="text" @click="onAdd">新增联系人</el-button>
+        <p>门店联系人</p>
+        <el-button type="text" @click="onAdd">添加联系人</el-button>
       </div>
       <el-table
           :data="list"
@@ -49,6 +51,7 @@ export default {
       contactInfo: {},
       isVisible: false,
       isEdit: false,
+      title: ''
     }
   },
   computed: {
@@ -68,11 +71,13 @@ export default {
       this.isVisible = true
       this.isEdit = false
       this.contactInfo = null
+      this.title = '添加联系人'
     },
     onEdit(contactInfo) {
       this.isVisible = true
       this.isEdit = true
       this.contactInfo = contactInfo
+      this.title = '编辑联系人'
     },
     onDelete(contactId) {
       this.deleteContact({id: contactId})
