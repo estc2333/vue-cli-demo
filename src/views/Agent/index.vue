@@ -1,15 +1,12 @@
 <template>
   <div>agent
-    <Tree v-for="node in treeData" :key="node.label" :treeData="treeData" />
   </div>
 </template>
 
 <script>
-import Tree from '../../components/Tree'
 export default {
   name: "agent",
   components: {
-    Tree,
   },
   data () {
     return {
