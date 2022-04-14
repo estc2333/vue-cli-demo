@@ -85,9 +85,10 @@ export default {
   watch: {
     form :{
       handler: function () {
-        console.log(this.$refs.contactForm, 'a')
         this.$nextTick(() => {
-          console.log(this.$refs.contactForm, 'b')
+          this.$refs.contactForm.validate((valid) => {
+            this.isValid = valid
+          })
         })
       },
       deep: true,
