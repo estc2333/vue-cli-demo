@@ -23,7 +23,7 @@
       </el-form-item>
       <div class="btn">
         <el-button plain @click="hide">取消</el-button>
-        <el-button type="primary" @click="onSubmit">确定</el-button>
+        <el-button type="primary" :disabled="!isValid" @click="onSubmit">确定</el-button>
       </div>
     </el-form>
   </el-dialog>
@@ -78,16 +78,28 @@ export default {
         comment: [
           { max: 20, message: '长度20个字符以内'}
         ],
-      }
+      },
+      isValid: false,
+    }
+  },
+  watch: {
+    form :{
+      handler: function () {
+        console.log(this.$refs.contactForm, 'a')
+        this.$nextTick(() => {
+          console.log(this.$refs.contactForm, 'b')
+        })
+      },
+      deep: true,
     }
   },
   methods: {
     onSubmit() {
       this.$refs.contactForm.validate((valid)=>{
-        console.log(valid)
-
+        if(valid) {
+          this.$emit('submit', this.form)
+        }
       })
-      this.$emit('submit', this.form)
     },
     clickOutside(event) {
       if (!event.target.closest('.wrapper')) {
@@ -96,6 +108,10 @@ export default {
     },
     hide() {
       this.$emit('hideModal')
+    },
+    validateForm (fieldName, isValidField) {
+      console.log(fieldName, isValidField, 'fieldName, isValidField')
+      this.isValid = isValidField
     },
   },
   mounted() {
