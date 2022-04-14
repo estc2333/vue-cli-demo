@@ -20,6 +20,7 @@
         <el-table-column prop="name" label="姓名" width="180" />
         <el-table-column prop="tel" label="电话" width="180" />
         <el-table-column prop="address" label="地址" />
+        <el-table-column prop="comment" label="备注" />
         <el-table-column label="操作" width="280">
           <template slot-scope="scope">
             <el-button type="text" size="mini" @click="onEdit(scope.row)">编辑</el-button>

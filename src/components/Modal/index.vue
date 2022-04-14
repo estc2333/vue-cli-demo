@@ -1,14 +1,25 @@
 <template>
   <el-dialog :visible.sync="isVisible" :title="title">
-    <el-form class="wrapper" label-width="120px" label-position="left" @click="clickOutside">
-      <el-form-item label="姓名">
+    <el-form
+        class="wrapper"
+        label-width="120px"
+        label-position="left"
+        ref="contactForm"
+        :rules="rules"
+        :model="form"
+        @click="clickOutside"
+    >
+      <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name" size="medium"></el-input>
       </el-form-item>
-      <el-form-item label="电话">
-        <el-input v-model="form.tel"></el-input>
+      <el-form-item label="电话" prop="tel">
+        <el-input v-model.number="form.tel"></el-input>
       </el-form-item>
-      <el-form-item label="地址">
+      <el-form-item label="地址" prop="address">
         <el-input v-model="form.address"></el-input>
+      </el-form-item>
+      <el-form-item label="备注" prop="comment">
+        <el-input v-model="form.comment"></el-input>
       </el-form-item>
       <div class="btn">
         <el-button plain @click="hide">取消</el-button>
@@ -52,11 +63,30 @@ export default {
         name: '',
         tel: '',
         address: '',
+        comment: '',
       },
+      rules: {
+        name: [
+          {required: true, message: '请输入名称'}
+        ],
+        tel: [
+          {required: true, message: '请输入电话号码'},
+        ],
+        address: [
+          {required: true, message: '请输入地址'}
+        ],
+        comment: [
+          { max: 20, message: '长度20个字符以内'}
+        ],
+      }
     }
   },
   methods: {
     onSubmit() {
+      this.$refs.contactForm.validate((valid)=>{
+        console.log(valid)
+
+      })
       this.$emit('submit', this.form)
     },
     clickOutside(event) {

@@ -5,11 +5,11 @@ export default {
         return request.get('/contactList')
             .then(res => res.data)
     },
-    addContact: ({name, tel, address}) => {
-        return request.post('/contact/new/json', {name, tel, address})
+    addContact: ({name, tel, address, comment}) => {
+        return request.post('/contact/new/json', {name, tel, address, comment})
     },
-    editContact: ({id, name, tel, address}) => {
-        return request.put('/contact/edit', {id, name, tel, address})
+    editContact: ({id, name, tel, address, comment}) => {
+        return request.put('/contact/edit', {id, name, tel, address, comment})
     },
     deleteContact: (id) => {
         return request.delete(`/contact`, {
