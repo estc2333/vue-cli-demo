@@ -10,7 +10,7 @@
         {{ nav.title }}
       </li>
     </section>
-    <el-button type="text" @click="onLogin">Login/Register</el-button>
+    <el-button type="text" @click="doAuth">Login/Register</el-button>
   </div>
 </template>
 
@@ -49,8 +49,8 @@ export default {
     isActive (nav) {
       return nav.routeName.includes(this.active)
     },
-    onLogin () {
-      this.$emit('login')
+    doAuth () {
+      this.$emit('doAuth')
     },
   }
 }

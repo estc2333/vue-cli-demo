@@ -1,18 +1,27 @@
 <template>
   <div id="page-wrapper">
-    <nav-bar class="menu" :navList="navList" :default-active="defaultActive" />
+    <nav-bar class="menu" :navList="navList" :default-active="defaultActive" @doAuth="doAuth" />
     <div class="content">
+      <auth v-if="showAuth"></auth>
+
       <router-view></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import navBar from '../../components/NavBar'
+import NavBar from '../../components/NavBar'
+import Auth from '../../components/AuthForm'
 export default {
   name: "homepage",
   components: {
-    navBar,
+    NavBar,
+    Auth,
+  },
+  data() {
+    return {
+      showAuth: false,
+    }
   },
   computed: {
     navList() {
@@ -34,6 +43,12 @@ export default {
     defaultActive () {
       return this.$route.name
     },
+  },
+  methods: {
+    doAuth() {
+      console.log('as')
+      this.showAuth = true
+    }
   },
 }
 </script>
