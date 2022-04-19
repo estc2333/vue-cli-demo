@@ -1,6 +1,6 @@
 <template>
   <div id="page-wrapper">
-    <side-bar class="menu" :navList="navList" :default-active="defaultActive" />
+    <nav-bar class="menu" :navList="navList" :default-active="defaultActive" />
     <div class="content">
       <router-view></router-view>
     </div>
@@ -8,28 +8,25 @@
 </template>
 
 <script>
-import SideBar from '../../components/SideBar'
+import navBar from '../../components/NavBar'
 export default {
   name: "homepage",
   components: {
-    SideBar,
+    navBar,
   },
   computed: {
     navList() {
       return ([
         {
-          title: 'SHOP',
-          icon: 'icon-dashboard',
+          title: 'Shop',
           routeName: ['shop'],
         },
         {
-          title: 'CONTACTS',
-          icon: 'icon-dashboard',
+          title: 'Contacts',
           routeName: ['contacts'],
         },
         {
-          title: 'AGENT',
-          icon: 'icon-sitemap',
+          title: 'Agent',
           routeName: ['agent'],
         },
       ])
@@ -46,17 +43,10 @@ export default {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  display: flex;
+  padding: 0 200px;
 
-  .menu {
-    width: 200px;
-    background-color: #9cd0a1;
-    height: 100%;
-  }
   .content {
-    flex: 1;
     height: 100%;
-    background-color: #F3F3F3;
     padding: 25px 20px;
     overflow: auto;
   }

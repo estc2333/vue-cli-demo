@@ -1,19 +1,26 @@
 <template>
-  <div class="nav-list">
-    <li v-for="nav in navList"
-        :key="nav.title"
-        :class="{active: isActive(nav)}"
-        @click="gotoPage(nav)"
-    >
-      <i :class='nav.icon'></i>
-      {{ nav.title }}
-    </li>
+  <div class="nav-wrapper">
+    <section>
+      <li
+          v-for="nav in navList"
+          :key="nav.title"
+          :class="{active: isActive(nav)}"
+          @click="gotoPage(nav)"
+      >
+        {{ nav.title }}
+      </li>
+    </section>
+    <el-button type="text" @click="onLogin">Login/Register</el-button>
   </div>
 </template>
 
 <script>
+import { Button } from 'element-ui'
 export default {
-  name: "SideBar",
+  name: "NavBar",
+  components: {
+    [Button.name]: Button,
+  },
   props: {
     navList: {
       type: Array,
@@ -42,29 +49,33 @@ export default {
     isActive (nav) {
       return nav.routeName.includes(this.active)
     },
+    onLogin () {
+      this.$emit('login')
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.nav-list {
+.nav-wrapper {
+  height: 55px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button {
+  }
 
   li {
-    list-style: none;
-    height: 45px;
+    display:inline-block;
     line-height: 45px;
     cursor: pointer;
     font-size: 18px;
-    margin-top: 20px;
-
-    i {
-      font-size: 20px;
-      margin: 25px;
-    }
+    margin-right: 25px;
   }
   .active {
     color: #00B4CF;
-    background-color: #C1F4C5;
   }
 }
 </style>

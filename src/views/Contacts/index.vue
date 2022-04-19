@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!isEmpty(list)">
+  <div v-if="!isEmpty(list)" class="contact-wrapper">
     <contact-modal
         v-if="isVisible"
         :isVisible="isVisible"
@@ -102,6 +102,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.contact-wrapper {
+  box-shadow: rgba(46, 41, 51, 0.08) 0px 1px 2px, rgba(71, 63, 79, 0.08) 0px 2px 4px;
+}
 .header {
   height: 45px;
   display: flex;
