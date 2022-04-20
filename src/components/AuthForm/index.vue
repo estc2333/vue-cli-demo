@@ -1,17 +1,17 @@
 <template>
-  <el-dialog :visible.sync="isVisible" :title="title">
+  <el-dialog :visible.sync="isShow" title="Your Account">
     <el-form
-        class="wrapper"
+        class="form-wrapper"
         label-width="120px"
         label-position="left"
         ref="authForm"
+        @validate="validateForm"
         :rules="rules"
         :model="form"
-        @click="clickOutside"
     >
-      <el-tabs v-model="activeTab">
-        <el-tab-pane label="login">Login</el-tab-pane>
-        <el-tab-pane label="register">Register</el-tab-pane>
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="login" name="login"></el-tab-pane>
+        <el-tab-pane label="register" name="register"></el-tab-pane>
       </el-tabs>
       <el-form-item label="name" prop="name">
         <el-input v-model="form.name" size="medium"></el-input>
@@ -48,11 +48,7 @@ export default {
   props: {
     isVisible: {
       type: Boolean,
-      default: true,
-    },
-    title: {
-      type: String,
-      default: '',
+      default: false,
     },
   },
   data() {
@@ -64,31 +60,41 @@ export default {
       },
       rules: {
         name: [
-          {required: true, message: '请输入名称'}
+          {required: true, message: 'What’s your name?', trigger: 'change'}
         ],
         password: [
-          {required: true, message: '请输入电话号码'},
+          {required: true, message: 'Please enter your password.', trigger: 'change'},
         ],
         email: [
-          {required: true, message: '请输入地址'}
+          {required: true, message: 'Please enter a valid email.'}
         ],
       },
       isValid: false,
-      activeTab: 'login'
+      activeName: 'login'
     }
   },
-  watch: {
-    form :{
-      handler: function () {
-        this.$nextTick(() => {
-          this.$refs.authForm.validate((valid) => {
-            this.isValid = valid
-          })
-        })
+  computed: {
+    isShow: {
+      get() {
+        return this.isVisible
       },
-      deep: true,
+      set(val) {
+        this.$emit('update:isVisible', val)
+      }
     }
   },
+  // watch: {
+  //   form :{
+  //     handler: function () {
+  //       this.$nextTick(() => {
+  //         this.$refs.authForm && this.$refs.authForm.validate((valid) => {
+  //           this.isValid = valid
+  //         })
+  //       })
+  //     },
+  //     deep: true,
+  //   }
+  // },
   methods: {
     onSubmit() {
       this.$refs.authForm.validate((valid)=>{
@@ -97,33 +103,24 @@ export default {
         }
       })
     },
-    clickOutside(event) {
-      if (!event.target.closest('.wrapper')) {
-        this.hide()
-      }
-    },
     hide() {
       this.$emit('hideModal')
     },
-    validateForm (fieldName, isValidField) {
-      console.log(fieldName, isValidField, 'fieldName, isValidField')
-      this.isValid = isValidField
+    validateForm () {
+      this.isValid = !Object.values(this.form).some(value => {
+        return !value
+      })
     },
   },
   mounted() {
-    window.addEventListener('mousedown', this.clickOutside)
-  },
-  destroyed() {
-    window.removeEventListener('mousedown', this.clickOutside)
+    this.validateForm()
   }
 }
 </script>
 
 <style scoped lang="scss">
-.wrapper {
-  z-index: 2;
-  background-color: white;
-  padding: 40px 40px 25px 40px;
+.form-wrapper {
+  padding:0 40px;
 
   .el-input {
     width: 300px;

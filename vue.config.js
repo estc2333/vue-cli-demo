@@ -47,6 +47,9 @@ module.exports = {
         loaderOptions: {
             sass: {
                 prependData: `@import "@/styles/_reset.scss";`
+            },
+            css: {
+                modules: true,
             }
         },
         // 启用 CSS modules for all css / pre-processor files.
