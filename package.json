@@ -10,6 +10,7 @@
   "dependencies": {
     "babel-loader": "8",
     "core-js": "^3.6.5",
+    "firebase": "8",
     "lodash-es": "^4.17.21",
     "scss": "^0.2.4",
     "vue": "^2.6.11",

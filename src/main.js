@@ -4,6 +4,7 @@ import router from './router/index'
 import './styles/_reset.scss'
 import './styles/overwrite.scss'
 import store from './store'
+import './includes/firebase'
 
 Vue.config.productionTip = false
 

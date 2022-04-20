@@ -20,7 +20,7 @@
         <el-input v-model="form.email"></el-input>
       </el-form-item>
       <el-form-item label="password" prop="password">
-        <el-input type="password" v-model.number="form.password"></el-input>
+        <el-input type="password" v-model="form.password"></el-input>
       </el-form-item>
       <div class="btn">
         <el-button plain @click="hide">Cancel</el-button>
@@ -32,6 +32,7 @@
 
 <script>
 import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane} from 'element-ui'
+import firebase from '@/includes/firebase';
 
 export default {
   name: "index",
@@ -83,23 +84,24 @@ export default {
       }
     }
   },
-  // watch: {
-  //   form :{
-  //     handler: function () {
-  //       this.$nextTick(() => {
-  //         this.$refs.authForm && this.$refs.authForm.validate((valid) => {
-  //           this.isValid = valid
-  //         })
-  //       })
-  //     },
-  //     deep: true,
-  //   }
-  // },
   methods: {
     onSubmit() {
       this.$refs.authForm.validate((valid)=>{
         if(valid) {
-          this.$emit('submit', this.form)
+          // it will return a Promise
+          firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
+              .then((userCredential) => {
+                // Signed in
+                const { user } = userCredential;
+                console.log(userCredential, user, 'aaa');
+                // ...
+              })
+              .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorCode, errorMessage);
+                // ..
+              });
         }
       })
     },
