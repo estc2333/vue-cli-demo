@@ -119,6 +119,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+::v-deep .el-dialog__body{
+  padding: 10px 20px 30px;
+}
 .form-wrapper {
   padding:0 40px;
 
