@@ -140,8 +140,8 @@ export default {
         }, 100)
       } else {
         this.isValid = fields.every(f => {
-          let valid = f.required && f.validateState === 'success'
-          let notErroring = !f.required && f.validateState !== "error";
+          let valid = f.isRequired && f.validateState === 'success'
+          let notErroring = !f.isRequired && f.validateState !== "error";
           return valid || notErroring;
         })
       }
