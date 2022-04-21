@@ -2,10 +2,9 @@
   <el-dialog :visible.sync="isShow" title="Your Account">
     <el-form
         class="form-wrapper"
-        label-width="120px"
+        label-width="140px"
         label-position="left"
         ref="authForm"
-        @validate="validateForm"
         :rules="rules"
         :model="form"
     >
@@ -21,6 +20,9 @@
       </el-form-item>
       <el-form-item label="password" prop="password">
         <el-input type="password" v-model="form.password"></el-input>
+      </el-form-item>
+      <el-form-item v-if="activeName === 'register'" label="confirm password" prop="confirmPassword">
+        <el-input type="password" v-model="form.confirmPassword"></el-input>
       </el-form-item>
       <div class="btn">
         <el-button plain @click="hide">Cancel</el-button>
@@ -57,6 +59,7 @@ export default {
       form: {
         name: '',
         password: '',
+        confirmPassword: '',
         email: '',
       },
       rules: {
@@ -64,7 +67,18 @@ export default {
           {required: true, message: 'What’s your name?', trigger: 'change'}
         ],
         password: [
+          // {required: true, validator: this.checkPassword, trigger: 'change'},
           {required: true, message: 'Please enter your password.', trigger: 'change'},
+          {
+            min: 6,
+            max: 32,
+            message: "password should be at least 6 characters",
+            trigger: "change"
+          }
+        ],
+        confirmPassword: [
+          {required: true, message: 'Please confirm your password.', trigger: 'change'},
+          {validator: this.confirmPassword, trigger: 'change'}
         ],
         email: [
           {required: true, message: 'Please enter a valid email.'}
@@ -72,6 +86,16 @@ export default {
       },
       isValid: false,
       activeName: 'login'
+    }
+  },
+  watch: {
+    form: {
+      handler(){
+        this.$nextTick(() => {
+          this.$refs.authForm && this.validateForm();
+        })
+      },
+      deep: true
     }
   },
   computed: {
@@ -109,14 +133,25 @@ export default {
       this.$emit('hideModal')
     },
     validateForm () {
-      this.isValid = !Object.values(this.form).some(value => {
-        return !value
-      })
+      let fields = this.$refs.authForm.fields
+      if(fields.find(f => f.validateState === 'validating')) {
+        setTimeout(() => {
+          this.validateForm()
+        }, 100)
+      } else {
+        this.isValid = fields.every(f => {
+          let valid = f.required && f.validateState === 'success'
+          let notErroring = !f.required && f.validateState !== "error";
+          return valid || notErroring;
+        })
+      }
     },
+    confirmPassword (rule, value, callback) {
+      if(value !== this.form.password) {
+        callback(new Error('Passwords do not match.'))
+      }
+    }
   },
-  mounted() {
-    this.validateForm()
-  }
 }
 </script>
 
