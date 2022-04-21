@@ -78,7 +78,7 @@ export default {
         ],
         confirmPassword: [
           {required: true, message: 'Please confirm your password.', trigger: 'change'},
-          {validator: this.confirmPassword, trigger: 'change'}
+          {validator: this.confirmPassword, trigger: 'submit'}
         ],
         email: [
           {required: true, message: 'Please enter a valid email.'}
@@ -96,6 +96,10 @@ export default {
         })
       },
       deep: true
+    },
+    activeName() {
+      this.isValid = false
+      this.$refs.authForm.resetFields()
     }
   },
   computed: {
@@ -110,24 +114,38 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$refs.authForm.validate((valid)=>{
-        if(valid) {
-          // it will return a Promise
-          firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
-              .then((userCredential) => {
-                // Signed in
-                const { user } = userCredential;
-                console.log(userCredential, user, 'aaa');
-                // ...
-              })
-              .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorCode, errorMessage);
-                // ..
-              });
-        }
-      })
+      if(this.isValid) {
+        this.activeName === 'register'
+            ?
+            // it will return a Promise
+            firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
+                .then((userCredential) => {
+                  // Signed up
+                  const { user } = userCredential;
+                  console.log(userCredential, user, 'aaa');
+                  // ...
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  console.log(errorCode, errorMessage);
+                  // ..
+                })
+            :
+            firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+                .then((userCredential) => {
+                  // Signed in
+                  const { user } = userCredential;
+                  console.log(userCredential, user, 'b');
+                  // ...
+                })
+                .catch((error) => {
+                  const errorCode = error.code;
+                  const errorMessage = error.message;
+                  console.log(errorCode, errorMessage);
+                  // ..
+                })
+      }
     },
     hide() {
       this.$emit('hideModal')
@@ -142,6 +160,7 @@ export default {
         this.isValid = fields.every(f => {
           let valid = f.isRequired && f.validateState === 'success'
           let notErroring = !f.isRequired && f.validateState !== "error";
+          console.log(valid, notErroring, 'valid, notErroring')
           return valid || notErroring;
         })
       }
