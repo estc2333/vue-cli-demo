@@ -34,7 +34,7 @@
 
 <script>
 import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane, Message} from 'element-ui'
-import { auth } from '@/includes/firebase';
+import { auth, usersCollection } from '@/includes/firebase';
 
 export default {
   name: "index",
@@ -115,35 +115,45 @@ export default {
   methods: {
     onSubmit() {
       if(this.isValid) {
-        this.activeName === 'register'
-            ?
-            // it will return a Promise
-            auth.createUserWithEmailAndPassword(this.form.email, this.form.password)
-                .then((userCredential) => {
-                  // Signed up
-                  const { user } = userCredential;
-                  console.log(userCredential, user, 'aaa');
-                  // ...
-                })
-                .catch((error) => {
-                  const errorMessage = error.message;
-                  Message.error(errorMessage)
-                })
-            :
-            auth.signInWithEmailAndPassword(this.form.email, this.form.password)
-                .then((userCredential) => {
-                  // Signed in
-                  const { user } = userCredential;
-                  console.log(userCredential, user, 'b');
-                  // ...
-                })
-                .catch((error) => {
-                  const errorCode = error.code;
-                  const errorMessage = error.message;
-                  console.log(errorCode, errorMessage);
-                  // ..
-                })
+        this.activeName === 'register' ? this.register(): this.login()
       }
+    },
+    register() {
+      // it will return a Promise
+      auth.createUserWithEmailAndPassword(this.form.email, this.form.password)
+          .then((userCredential) => {
+            // Signed up
+            const { user } = userCredential;
+            console.log(userCredential, user, 'aaa');
+            // ...
+          })
+          .catch((error) => {
+            const errorMessage = error.message;
+            Message.error(errorMessage)
+          })
+
+      usersCollection.add({
+        name: this.form.name,
+        email: this.form.email,
+        password: this.form.password
+      })
+          .then()
+          .catch()
+    },
+    login() {
+      auth.signInWithEmailAndPassword(this.form.email, this.form.password)
+          .then((userCredential) => {
+            // Signed in
+            const { user } = userCredential;
+            console.log(userCredential, user, 'b');
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage);
+            // ..
+          })
     },
     hide() {
       this.$emit('hideModal')
