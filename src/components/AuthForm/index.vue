@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane} from 'element-ui'
-import firebase from '@/includes/firebase';
+import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane, Message} from 'element-ui'
+import { auth } from '@/includes/firebase';
 
 export default {
   name: "index",
@@ -118,7 +118,7 @@ export default {
         this.activeName === 'register'
             ?
             // it will return a Promise
-            firebase.auth().createUserWithEmailAndPassword(this.form.email, this.form.password)
+            auth.createUserWithEmailAndPassword(this.form.email, this.form.password)
                 .then((userCredential) => {
                   // Signed up
                   const { user } = userCredential;
@@ -126,13 +126,11 @@ export default {
                   // ...
                 })
                 .catch((error) => {
-                  const errorCode = error.code;
                   const errorMessage = error.message;
-                  console.log(errorCode, errorMessage);
-                  // ..
+                  Message.error(errorMessage)
                 })
             :
-            firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+            auth.signInWithEmailAndPassword(this.form.email, this.form.password)
                 .then((userCredential) => {
                   // Signed in
                   const { user } = userCredential;
