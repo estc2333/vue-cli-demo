@@ -34,7 +34,7 @@
 
 <script>
 import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane, Message} from 'element-ui'
-import { auth, usersCollection } from '@/includes/firebase';
+import { auth, usersCollection, db } from '@/includes/firebase';
 
 export default {
   name: "index",
@@ -125,20 +125,31 @@ export default {
             // Signed up
             const { user } = userCredential;
             console.log(userCredential, user, 'aaa');
+            return db.collection('users').add({
+              name: this.form.name,
+              email: this.form.email,
+              password: this.form.password
+            })
             // ...
           })
+          .then(() => usersCollection.add({
+            name: this.form.name,
+            email: this.form.email,
+            password: this.form.password
+          }))
+          .then(()=> console.log('add'))
           .catch((error) => {
             const errorMessage = error.message;
             Message.error(errorMessage)
           })
 
-      usersCollection.add({
-        name: this.form.name,
-        email: this.form.email,
-        password: this.form.password
-      })
-          .then()
-          .catch()
+      // usersCollection.add({
+      //   name: this.form.name,
+      //   email: this.form.email,
+      //   password: this.form.password
+      // })
+      //     .then(()=> console.log('add'))
+      //     .catch(()=> console.log('err'))
     },
     login() {
       auth.signInWithEmailAndPassword(this.form.email, this.form.password)
