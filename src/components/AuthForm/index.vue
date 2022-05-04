@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="isShow" title="Your Account">
+  <el-dialog class="wrapper" :visible.sync="isShow" title="Your Account">
     <el-form
         class="form-wrapper"
         label-width="140px"
@@ -12,7 +12,7 @@
         <el-tab-pane label="login" name="login"></el-tab-pane>
         <el-tab-pane label="register" name="register"></el-tab-pane>
       </el-tabs>
-      <el-form-item label="name" prop="name">
+      <el-form-item v-if="activeName === 'register'" label="name" prop="name">
         <el-input v-model="form.name" size="medium"></el-input>
       </el-form-item>
       <el-form-item label="email" prop="email">
@@ -25,7 +25,7 @@
         <el-input type="password" v-model="form.confirmPassword"></el-input>
       </el-form-item>
       <div class="btn">
-        <el-button plain @click="hide">Cancel</el-button>
+        <el-button plain>Cancel</el-button>
         <el-button type="primary" :disabled="!isValid" @click="onSubmit">Submit</el-button>
       </div>
     </el-form>
@@ -34,7 +34,7 @@
 
 <script>
 import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane, Message} from 'element-ui'
-import { auth, usersCollection, db } from '@/includes/firebase';
+import { auth, usersCollection } from '@/includes/firebase';
 
 export default {
   name: "index",
@@ -67,7 +67,6 @@ export default {
           {required: true, message: 'What’s your name?', trigger: 'change'}
         ],
         password: [
-          // {required: true, validator: this.checkPassword, trigger: 'change'},
           {required: true, message: 'Please enter your password.', trigger: 'change'},
           {
             min: 6,
@@ -117,6 +116,7 @@ export default {
       if(this.isValid) {
         this.activeName === 'register' ? this.register(): this.login()
       }
+      this.isShow = false
     },
     register() {
       // it will return a Promise
@@ -125,31 +125,18 @@ export default {
             // Signed up
             const { user } = userCredential;
             console.log(userCredential, user, 'aaa');
-            return db.collection('users').add({
+            return usersCollection.add({
               name: this.form.name,
               email: this.form.email,
               password: this.form.password
             })
             // ...
           })
-          .then(() => usersCollection.add({
-            name: this.form.name,
-            email: this.form.email,
-            password: this.form.password
-          }))
           .then(()=> console.log('add'))
           .catch((error) => {
             const errorMessage = error.message;
             Message.error(errorMessage)
           })
-
-      // usersCollection.add({
-      //   name: this.form.name,
-      //   email: this.form.email,
-      //   password: this.form.password
-      // })
-      //     .then(()=> console.log('add'))
-      //     .catch(()=> console.log('err'))
     },
     login() {
       auth.signInWithEmailAndPassword(this.form.email, this.form.password)
@@ -166,9 +153,6 @@ export default {
             // ..
           })
     },
-    hide() {
-      this.$emit('hideModal')
-    },
     validateForm () {
       let fields = this.$refs.authForm.fields
       if(fields.find(f => f.validateState === 'validating')) {
@@ -179,7 +163,6 @@ export default {
         this.isValid = fields.every(f => {
           let valid = f.isRequired && f.validateState === 'success'
           let notErroring = !f.isRequired && f.validateState !== "error";
-          console.log(valid, notErroring, 'valid, notErroring')
           return valid || notErroring;
         })
       }

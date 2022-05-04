@@ -2,7 +2,7 @@
   <div id="page-wrapper">
     <nav-bar class="menu" :navList="navList" :default-active="defaultActive" @doAuth="doAuth" />
     <div class="content">
-      <auth v-if="isVisible" :isVisible.sync="isVisible" @hideModal="hideModal" />
+      <auth v-if="isVisible" :isVisible.sync="isVisible" />
       <router-view></router-view>
     </div>
   </div>
@@ -47,9 +47,6 @@ export default {
     doAuth() {
       this.isVisible = true
     },
-    hideModal() {
-      this.isVisible = false
-    }
   },
 }
 </script>
