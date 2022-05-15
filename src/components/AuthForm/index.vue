@@ -7,6 +7,7 @@
         ref="authForm"
         :rules="rules"
         :model="form"
+        @submit.native.prevent
     >
       <el-tabs v-model="activeName">
         <el-tab-pane label="login" name="login"></el-tab-pane>
@@ -25,7 +26,7 @@
         <el-input type="password" v-model="form.confirmPassword"></el-input>
       </el-form-item>
       <div class="btn">
-        <el-button plain>Cancel</el-button>
+        <el-button plain @click="a">Cancel</el-button>
         <el-button type="primary" :disabled="!isValid" @click="onSubmit">Submit</el-button>
       </div>
     </el-form>
@@ -112,6 +113,9 @@ export default {
     }
   },
   methods: {
+    a() {
+      console.log('aaaaa')
+    },
     onSubmit() {
       if(this.isValid) {
         this.activeName === 'register' ? this.register(): this.login()
@@ -126,7 +130,7 @@ export default {
             const { user } = userCredential;
             console.log(userCredential, user, 'aaa');
             return usersCollection.add({
-              name: this.form.name,
+              displayName: this.form.name,
               email: this.form.email,
               password: this.form.password
             })
@@ -139,12 +143,13 @@ export default {
           })
     },
     login() {
+      console.log('l')
       auth.signInWithEmailAndPassword(this.form.email, this.form.password)
-          .then((userCredential) => {
-            // Signed in
-            const { user } = userCredential;
-            console.log(userCredential, user, 'b');
-            // ...
+          .then(() => {
+            usersCollection.get()
+                .then(res => {
+                  res.docs.map(item =>(item.data().email)).filter(user => (user.email === this.form.email))
+            })
           })
           .catch((error) => {
             const errorCode = error.code;
