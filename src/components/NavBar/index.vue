@@ -10,12 +10,14 @@
         {{ nav.title }}
       </li>
     </section>
-    <el-button type="text" @click="doAuth">Login/Register</el-button>
+    <el-button v-if="!username" type="text" @click="doAuth">Login/Register</el-button>
+    <div v-else>{{username}}</div>
   </div>
 </template>
 
 <script>
 import { Button } from 'element-ui'
+import {mapState} from "vuex";
 export default {
   name: "NavBar",
   components: {
@@ -40,6 +42,9 @@ export default {
     return {
       active: this.defaultActive || this.navList[0].routeName,
     }
+  },
+  computed: {
+    ...mapState('user', ['username'])
   },
   methods: {
     gotoPage(nav, index) {

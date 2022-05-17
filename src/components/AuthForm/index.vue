@@ -26,7 +26,7 @@
         <el-input type="password" v-model="form.confirmPassword"></el-input>
       </el-form-item>
       <div class="btn">
-        <el-button plain @click="a">Cancel</el-button>
+        <el-button plain>Cancel</el-button>
         <el-button type="primary" :disabled="!isValid" @click="onSubmit">Submit</el-button>
       </div>
     </el-form>
@@ -36,6 +36,7 @@
 <script>
 import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane, Message} from 'element-ui'
 import { auth, usersCollection } from '@/includes/firebase';
+import {mapActions} from "vuex";
 
 export default {
   name: "index",
@@ -113,9 +114,7 @@ export default {
     }
   },
   methods: {
-    a() {
-      console.log('aaaaa')
-    },
+    ...mapActions('user', ['getUsername']),
     onSubmit() {
       if(this.isValid) {
         this.activeName === 'register' ? this.register(): this.login()
@@ -143,19 +142,18 @@ export default {
           })
     },
     login() {
-      console.log('l')
       auth.signInWithEmailAndPassword(this.form.email, this.form.password)
           .then(() => {
             usersCollection.get()
                 .then(res => {
-                  res.docs.map(item =>(item.data().email)).filter(user => (user.email === this.form.email))
-            })
+                  const userInfo = res.docs.map(item =>(item.data())).find(user => (user.email === this.form.email))
+                  this.getUsername(userInfo.displayName)
+                })
           })
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode, errorMessage);
-            // ..
           })
     },
     validateForm () {
