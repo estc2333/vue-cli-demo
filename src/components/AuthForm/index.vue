@@ -144,15 +144,11 @@ export default {
     },
     login() {
       auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
-          .then(() => {
-            auth.signInWithEmailAndPassword(this.form.email, this.form.password)
-                .then(() => {
-                  usersCollection.get()
-                      .then(res => {
-                        const userInfo = res.docs.map(item => (item.data())).find(user => (user.email === this.form.email))
-                        this.getUsername(userInfo.displayName)
-                      })
-                })
+          .then(() => auth.signInWithEmailAndPassword(this.form.email, this.form.password))
+          .then(() => usersCollection.get())
+          .then(res => {
+            const userInfo = res.docs.map(item => (item.data())).find(user => (user.email === this.form.email))
+            this.getUsername(userInfo.displayName)
           })
           .catch((error) => {
             const errorCode = error.code;
