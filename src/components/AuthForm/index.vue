@@ -37,6 +37,7 @@
 import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane, Message} from 'element-ui'
 import { auth, usersCollection } from '@/includes/firebase';
 import {mapActions} from "vuex";
+import firebase from 'firebase/app';
 
 export default {
   name: "index",
@@ -114,7 +115,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('user', ['getUsername']),
+    ...mapActions('auth', ['getUsername']),
     onSubmit() {
       if(this.isValid) {
         this.activeName === 'register' ? this.register(): this.login()
@@ -142,12 +143,15 @@ export default {
           })
     },
     login() {
-      auth.signInWithEmailAndPassword(this.form.email, this.form.password)
+      auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
           .then(() => {
-            usersCollection.get()
-                .then(res => {
-                  const userInfo = res.docs.map(item =>(item.data())).find(user => (user.email === this.form.email))
-                  this.getUsername(userInfo.displayName)
+            auth.signInWithEmailAndPassword(this.form.email, this.form.password)
+                .then(() => {
+                  usersCollection.get()
+                      .then(res => {
+                        const userInfo = res.docs.map(item => (item.data())).find(user => (user.email === this.form.email))
+                        this.getUsername(userInfo.displayName)
+                      })
                 })
           })
           .catch((error) => {

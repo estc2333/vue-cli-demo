@@ -11,13 +11,13 @@
       </li>
     </section>
     <el-button v-if="!username" type="text" @click="doAuth">Login/Register</el-button>
-    <div v-else>{{username}}</div>
+    <div v-else class="username" @click="signOut">{{username}}</div>
   </div>
 </template>
 
 <script>
 import { Button } from 'element-ui'
-import {mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 export default {
   name: "NavBar",
   components: {
@@ -44,9 +44,10 @@ export default {
     }
   },
   computed: {
-    ...mapState('user', ['username'])
+    ...mapState('auth', ['username'])
   },
   methods: {
+    ...mapActions('auth', ['logout']),
     gotoPage(nav, index) {
       this.currentIndex = index;
       this.$router.push({name: nav.routeName[0]})
@@ -56,6 +57,9 @@ export default {
     },
     doAuth () {
       this.$emit('doAuth')
+    },
+    signOut () {
+      this.logout()
     },
   }
 }
@@ -81,6 +85,12 @@ export default {
   }
   .active {
     color: #00B4CF;
+  }
+  .username {
+    cursor: pointer;
+    &:hover {
+      color: #00B4CF;
+    }
   }
 }
 </style>
