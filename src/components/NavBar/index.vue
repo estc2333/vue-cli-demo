@@ -11,7 +11,10 @@
       </li>
     </section>
     <el-button v-if="!username" type="text" @click="doAuth">Login/Register</el-button>
-    <div v-else class="username" @click="signOut">{{username}}</div>
+    <div v-else>
+      {{username}}
+      <span class="logout" @click="signOut">Log out</span>
+    </div>
   </div>
 </template>
 
@@ -86,7 +89,7 @@ export default {
   .active {
     color: #00B4CF;
   }
-  .username {
+  .logout {
     cursor: pointer;
     &:hover {
       color: #00B4CF;
