@@ -6,10 +6,21 @@
 
 <script>
 
+import {mapActions} from "vuex";
+import { auth } from '@/includes/firebase';
+
 export default {
   name: 'App',
   components: {
-  }
+  },
+  methods: {
+  ...mapActions('auth', ['getUsername']),
+  },
+  created() {
+    if(auth.currentUser) {
+      this.getUsername(auth.currentUser.displayName)
+    }
+  },
 }
 </script>
 

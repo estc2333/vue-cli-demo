@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import { auth } from '@/includes/firebase';
 
 Vue.use(Router)
 
@@ -8,9 +9,7 @@ Router.prototype.push = function push (location) {
     return originalPush.call(this, location).catch(err => err)
 }
 
-export default new Router({
-    mode: 'history',
-    routes: [
+const routes = [
         {
             path: '/',
             name: 'homepage',
@@ -25,17 +24,19 @@ export default new Router({
                 {
                     name: 'contacts',
                     path: '/contacts',
-                    component: () => import('/src/views/Contacts')
+                    component: () => import('/src/views/Contacts'),
+                    meta: { requiresAuth: true },
                 },
                 {
                     name: 'agent',
                     path: '/agent',
-                    component: () => import('/src/views/Agent')
+                    component: () => import('/src/views/Agent'),
+                    meta: { requiresAuth: true },
                 },
                 {
-                    name: 'todos',
-                    path: '/todos',
-                    component: () => import('/src/views/Todos')
+                    name: 'login',
+                    path: '/login',
+                    component: () => import('/src/views/Login')
                 },
                 {
                     name: 'axiosNotes',
@@ -45,4 +46,20 @@ export default new Router({
             ]
         },
     ]
+
+const router = new Router({
+    mode: "history",
+    routes,
+});
+
+router.beforeEach((to, from, next) => {
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+    const isAuthenticated = auth.currentUser;
+    console.log("isauthenticated", isAuthenticated);
+    if (requiresAuth && !isAuthenticated) {
+        next("/shop");
+    } else {
+        next();
+    }
 })
+export default router;

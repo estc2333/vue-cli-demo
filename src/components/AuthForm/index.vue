@@ -128,15 +128,13 @@ export default {
           .then((userCredential) => {
             // Signed up
             const { user } = userCredential;
-            console.log(userCredential, user, 'aaa');
+            // have to updateProfile cuz firebase register only store email & password
+            user.updateProfile({displayName: this.form.name})
             return usersCollection.add({
-              displayName: this.form.name,
               email: this.form.email,
               password: this.form.password
             })
-            // ...
           })
-          .then(()=> console.log('add'))
           .catch((error) => {
             const errorMessage = error.message;
             Message.error(errorMessage)
@@ -145,11 +143,7 @@ export default {
     login() {
       auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
           .then(() => auth.signInWithEmailAndPassword(this.form.email, this.form.password))
-          .then(() => usersCollection.get())
-          .then(res => {
-            const userInfo = res.docs.map(item => (item.data())).find(user => (user.email === this.form.email))
-            this.getUsername(userInfo.displayName)
-          })
+          .then(() => {this.getUsername(auth.currentUser.displayName)})
           .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
