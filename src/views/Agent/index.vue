@@ -1,19 +1,31 @@
 <template>
-  <div>agent
+  <div>
+    product name
+    <input v-model="productName"/>
     <el-upload
         action=""
+        accept=".jpg, .jpeg, .png"
         :on-success="uploadSuccess"
         :http-request="uploadFile"
         :file-list="fileList"
     >
       <el-button>upload</el-button>
     </el-upload>
+    <el-button @click="submit" :disabled="uploadProgress !== 100">submit</el-button>
+
+    <ul v-if="!isEmpty(productsInfo)">
+      <li v-for="(product, index) in productsInfo" :key="index">
+        {{product.productName}}
+        <img width="100" height="100" :src=product.productURL :alt=product.productName />
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import { Upload, Button } from 'element-ui'
-import { storageRef, storage } from '@/includes/firebase';
+import { storageRef, storage, productsCollection } from '@/includes/firebase'
+import { isEmpty } from "lodash-es"
 
 export default {
   name: "agent",
@@ -23,7 +35,12 @@ export default {
   },
   data () {
     return {
+      isEmpty,
       fileList: [],
+      productName: '',
+      productURL: '',
+      productsInfo: [],
+      uploadProgress: 0,
     }
   },
   methods: {
@@ -31,24 +48,33 @@ export default {
       // firebase upload api
       const uploadTask = storageRef.child(file.name).put(file)
       uploadTask.on(storage.TaskEvent.STATE_CHANGED, (snapshot) => {
-            console.log(snapshot, 'snap')
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        console.log('Upload is ' + progress + '% done');
+        this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        console.log('Upload is ' + this.uploadProgress + '% done');
       },
           (error) => {console.log(error)},
           () => {
             // Upload completed successfully, now we can get the download URL
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              console.log('File available at', downloadURL);
-              this.uploadSuccess(file.name)
+              this.productURL = downloadURL
+              this.uploadSuccess()
             });
           }
       )
     },
-    uploadSuccess(filename) {
-      const listRef = storageRef.child(filename)
-      const listRefa = storageRef.child('files')
-      console.log(listRef, listRefa, 'list', 'listRefa')
+    submit () {
+      // add product info to firebase store
+      productsCollection.add({
+        name: this.productName,
+        imgURL: this.productURL,
+      })
+    },
+    uploadSuccess() {
+      productsCollection.get()
+          .then(res => {
+            this.productsInfo = res.docs.map(doc => {
+              return doc.data()
+            })
+          })
     },
     download(file) {
       console.log(file)
