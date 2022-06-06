@@ -19,7 +19,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth()
 const db = firebase.firestore()
 const usersCollection = db.collection('users')
-const productsCollection = db.collection('products')
+const productsCollection = db.collection('produc')
 const storage = firebase.storage
 const storageRef = firebase.storage().ref()
 

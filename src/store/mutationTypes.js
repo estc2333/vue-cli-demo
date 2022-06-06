@@ -4,4 +4,5 @@ export default {
     LOGIN: 'LOGIN',
     LOGOUT: 'LOGOUT',
     REGISTER: 'REGISTER',
+    GET_PRODUCTS_INFO: 'GET_PRODUCTS_INFO',
 }

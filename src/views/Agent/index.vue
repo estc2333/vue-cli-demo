@@ -5,27 +5,18 @@
     <el-upload
         action=""
         accept=".jpg, .jpeg, .png"
-        :on-success="uploadSuccess"
         :http-request="uploadFile"
-        :file-list="fileList"
     >
       <el-button>upload</el-button>
     </el-upload>
     <el-button @click="submit" :disabled="uploadProgress !== 100">submit</el-button>
-
-    <ul v-if="!isEmpty(productsInfo)">
-      <li v-for="(product, index) in productsInfo" :key="index">
-        {{product.productName}}
-        <img width="100" height="100" :src=product.productURL :alt=product.productName />
-      </li>
-    </ul>
+    <el-button @click="deleteImg" >delete</el-button>
   </div>
 </template>
 
 <script>
 import { Upload, Button } from 'element-ui'
 import { storageRef, storage, productsCollection } from '@/includes/firebase'
-import { isEmpty } from "lodash-es"
 
 export default {
   name: "agent",
@@ -35,7 +26,6 @@ export default {
   },
   data () {
     return {
-      isEmpty,
       fileList: [],
       productName: '',
       productURL: '',
@@ -53,34 +43,26 @@ export default {
       },
           (error) => {console.log(error)},
           () => {
-            // Upload completed successfully, now we can get the download URL
+            // Upload completed successfully, get the download URL
             uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              this.productURL = downloadURL
-              this.uploadSuccess()
+                this.productURL = downloadURL
             });
           }
       )
     },
-    submit () {
+    submit() {
       // add product info to firebase store
       productsCollection.add({
-        name: this.productName,
-        imgURL: this.productURL,
+        productName: this.productName,
+        productURL: this.productURL,
       })
     },
-    uploadSuccess() {
-      productsCollection.get()
-          .then(res => {
-            this.productsInfo = res.docs.map(doc => {
-              return doc.data()
-            })
-          })
-    },
-    download(file) {
-      console.log(file)
-      // let storage = storage();
-      // const pathReference = storage.ref('images/stars.jpg');
-    },
+    deleteImg() {
+      productsCollection.delete()
+      .then(() => {
+        console.log('de')
+      })
+    }
   },
 }
 </script>
