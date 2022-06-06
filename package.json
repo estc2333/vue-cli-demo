@@ -13,6 +13,7 @@
     "firebase": "8",
     "lodash-es": "^4.17.21",
     "scss": "^0.2.4",
+    "uuid": "^8.3.2",
     "vue": "^2.6.11",
     "vue-loader": "15",
     "vue-router": "^3.5.2",

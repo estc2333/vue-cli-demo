@@ -53,9 +53,8 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-    const isAuthenticated = auth.currentUser;
-    console.log("isauthenticated", isAuthenticated);
+    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+    const isAuthenticated = auth.currentUser
     if (requiresAuth && !isAuthenticated) {
         next("/shop");
     } else {
