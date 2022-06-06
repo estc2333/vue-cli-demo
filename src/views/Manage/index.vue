@@ -19,7 +19,7 @@ import { Upload, Button } from 'element-ui'
 import { storageRef, storage, productsCollection } from '@/includes/firebase'
 
 export default {
-  name: "agent",
+  name: "manage",
   components: {
     [Upload.name]: Upload,
     [Button.name]: Button,

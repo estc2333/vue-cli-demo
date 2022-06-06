@@ -28,9 +28,9 @@ const routes = [
                     meta: { requiresAuth: true },
                 },
                 {
-                    name: 'agent',
-                    path: '/agent',
-                    component: () => import('/src/views/Agent'),
+                    name: 'manage',
+                    path: '/manage',
+                    component: () => import('/src/views/Manage'),
                     meta: { requiresAuth: true },
                 },
                 {

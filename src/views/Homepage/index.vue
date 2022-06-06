@@ -34,8 +34,8 @@ export default {
           routeName: ['contacts'],
         },
         {
-          title: 'Agent',
-          routeName: ['agent'],
+          title: 'Manage',
+          routeName: ['manage'],
         },
       ])
     },
