@@ -1,23 +1,58 @@
 import mutationTypes from "../mutationTypes";
 import { productsCollection } from '@/includes/firebase';
+import { v4 } from "uuid"
+import {  Message } from 'element-ui'
 
 const state = {
     productsInfo: [],
 }
 
-// const getters = {
-//     productsList (state) {
-//         return state.productsInfo.map(({id, productName}) => {
-//             return {id, productName}
-//         })
-//     }
-// }
-
 const actions = {
-    getProductsInfo({commit}) {
+    getProductsInfo({ commit }) {
         return productsCollection.get()
             .then((res) => {
                 commit(mutationTypes.GET_PRODUCTS_INFO, res)
+            })
+    },
+    addProduct({ dispatch }, { productName, productURL }) {
+        let id = v4()
+        // add product info to firebase store
+        return productsCollection.doc(id).set({
+            id,
+            productName,
+            productURL,
+        })
+            .then(() => {
+                Message({
+                    message: 'submit success',
+                    type: 'success',
+                    center: true,
+                })
+                dispatch('getProductsInfo')
+            })
+            .catch(error => {
+                Message({
+                    message: error,
+                    type: 'error',
+                    center: true,
+                })
+            })
+    },
+    deleteProduct({ dispatch }, { id }) {
+        return productsCollection.doc(id).delete()
+            .then(() => {
+                Message({
+                    message: 'delete success',
+                    type: 'success',
+                    center: true,
+                })
+                dispatch('getProductsInfo')
+            })
+            .catch((error) => {
+                Message({
+                    message: error,
+                    center: true,
+                })
             })
     },
 }
@@ -33,7 +68,6 @@ const mutations = {
 export default {
     namespaced: true,
     state,
-    // getters,
     mutations,
     actions,
 }

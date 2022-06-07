@@ -1,28 +1,31 @@
 <template>
   <div>
-    <section>
-      product name
-      <input v-model="productName"/>
+    <section class="upload-wrapper">
+      <div> product name:
+        <input v-model="productName" placeholder="product name"/>
+      </div>
       <el-upload
           action=""
           accept=".jpg, .jpeg, .png"
           :http-request="uploadFile"
+          :show-file-list="false"
+          :disabled="!productName"
       >
-        <el-button>upload</el-button>
+        <button :disabled="!productName">upload
+          <i class="el-icon-upload el-icon--right"></i>
+        </button>
       </el-upload>
-      <el-button @click="submit" :disabled="!allowSubmit">submit</el-button>
     </section>
     <section>
       uploaded products
-      <products-list :products="productsInfo" enableDelete />
+      <products-list :products="productsInfo" enableDelete @onDelete="handleDelete"/>
     </section>
   </div>
 </template>
 
 <script>
 import { Upload, Button } from 'element-ui'
-import { storageRef, storage, productsCollection } from '@/includes/firebase'
-import { v4 } from "uuid"
+import { storageRef, storage } from '@/includes/firebase'
 import { mapActions, mapState } from "vuex"
 import ProductsList from "@/components/ProductsList"
 
@@ -39,23 +42,18 @@ export default {
       productName: '',
       productURL: '',
       uploadProgress: 0,
-      allowSubmit: false,
     }
   },
   mounted() {
-    this.getProductsInfo()
-    // .then(() => {
-    //   this.fileList = this.productsList
-    // })
+    this.getProducts()
   },
   computed: {
     ...mapState('products', ['productsInfo']),
   },
   methods: {
-    ...mapActions('products', ['getProductsInfo']),
+    ...mapActions('products', ['getProductsInfo', 'addProduct', 'deleteProduct']),
     uploadFile({file}) {
       // firebase upload api
-      this.allowSubmit = false
       const uploadTask = storageRef.child(file.name).put(file)
       uploadTask.on(storage.TaskEvent.STATE_CHANGED, (snapshot) => {
             this.uploadProgress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -68,47 +66,42 @@ export default {
             // Upload completed successfully, get the download URL
             uploadTask.snapshot.ref.getDownloadURL()
                 .then((downloadURL) => {
-                  this.allowSubmit = true
                   this.productURL = downloadURL
+                  this.addProduct({
+                    productName: this.productName,
+                    productURL: this.productURL,
+                  })
                 })
+            .then(() => {
+              this.productName = ''
+            })
           }
       )
     },
-    submit() {
-      // add product info to firebase store
-      productsCollection.add({
-        id: v4(),
-        productName: this.productName,
-        productURL: this.productURL,
-      })
-          .then(() => {
-            this.$message({
-              message: 'submit success',
-              type: 'success',
-              center: true,
-            })
-            this.productName = ''
-          })
-          .catch(error => {
-            this.$message({
-              message: error,
-              center: true,
-            })
-          })
+    handleDelete(id) {
+      this.deleteProduct({ id })
     },
-    deleteImg() {
-      productsCollection.doc('1111').delete()
-          .then(() => {
-            console.log('de')
-          })
-          .catch((error) => {
-            console.error("Error removing document: ", error);
-          })
-    }
+    getProducts() {
+      this.getProductsInfo()
+    },
   },
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.upload-wrapper {
+  display: flex;
 
+  button {
+    border-radius: 10px;
+    border: solid 1px #1989fa;
+    background-color: #fff;
+    cursor: pointer;
+    margin-left: 10px;
+    &:disabled {
+      cursor: not-allowed;
+      border: none;
+    }
+  }
+}
 </style>

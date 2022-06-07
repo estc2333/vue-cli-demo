@@ -1,7 +1,7 @@
 <template>
   <section class="products-container">
     <li v-for="(product, index) in products" :key="index" class="product">
-      <i class="el-icon-close"></i>
+      <i v-if="enableDelete" class="el-icon-close" @click="onDelete(product.id)"></i>
       <img :src=product.productURL :alt=product.productName />
       <p class="name">{{ product.productName }}</p>
     </li>
@@ -20,6 +20,11 @@ export default {
       type: Boolean,
       default: false,
     }
+  },
+  methods: {
+    onDelete (id) {
+      this.$emit('onDelete', id)
+    },
   }
 }
 </script>
@@ -36,10 +41,11 @@ export default {
   li {
     background-color: #fff;
     height: 315px;
-    padding: 10px 5px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 
     img {
       max-width: 100%;
@@ -48,6 +54,14 @@ export default {
 
     .name {
       text-align: center;
+    }
+
+    .el-icon-close {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 14px;
+      cursor: pointer;
     }
   }
 }
