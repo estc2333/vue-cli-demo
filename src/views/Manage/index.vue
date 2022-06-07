@@ -1,23 +1,33 @@
 <template>
   <div>
-    product name
-    <input v-model="productName"/>
-    <el-upload
-        action=""
-        accept=".jpg, .jpeg, .png"
-        :http-request="uploadFile"
-    >
-      <el-button>upload</el-button>
-    </el-upload>
-    <el-button @click="submit" :disabled="!allowSubmit">submit</el-button>
-    <el-button @click="deleteImg" >delete</el-button>
+    <section>
+      product name
+      <input v-model="productName"/>
+      <el-upload
+          action=""
+          accept=".jpg, .jpeg, .png"
+          :http-request="uploadFile"
+      >
+        <el-button>upload</el-button>
+      </el-upload>
+      <el-button @click="submit" :disabled="!allowSubmit">submit</el-button>
+    </section>
+    <section>
+      uploaded products
+      <li v-for="(product, index) in productsInfo" :key="index" class="product">
+        <img :src=product.productURL :alt=product.productName />
+        <p class="name">{{ product.productName }}</p>
+        <el-button @click="deleteImg(product.id)">delete</el-button>
+      </li>
+    </section>
   </div>
 </template>
 
 <script>
 import { Upload, Button } from 'element-ui'
 import { storageRef, storage, productsCollection } from '@/includes/firebase'
-import {v4} from "uuid";
+import { v4 } from "uuid"
+import { mapActions, mapState } from "vuex"
 
 export default {
   name: "manage",
@@ -34,7 +44,17 @@ export default {
       allowSubmit: false,
     }
   },
+  mounted() {
+    this.getProductsInfo()
+    // .then(() => {
+    //   this.fileList = this.productsList
+    // })
+  },
+  computed: {
+    ...mapState('products', ['productsInfo']),
+  },
   methods: {
+    ...mapActions('products', ['getProductsInfo']),
     uploadFile({file}) {
       // firebase upload api
       this.allowSubmit = false
@@ -63,6 +83,20 @@ export default {
         productName: this.productName,
         productURL: this.productURL,
       })
+          .then(() => {
+            this.$message({
+              message: 'submit success',
+              type: 'success',
+              center: true,
+            })
+            this.productName = ''
+          })
+          .catch(error => {
+            this.$message({
+              message: error,
+              center: true,
+            })
+          })
     },
     deleteImg() {
       productsCollection.doc('1111').delete()

@@ -5,6 +5,14 @@ const state = {
     productsInfo: [],
 }
 
+// const getters = {
+//     productsList (state) {
+//         return state.productsInfo.map(({id, productName}) => {
+//             return {id, productName}
+//         })
+//     }
+// }
+
 const actions = {
     getProductsInfo({commit}) {
         return productsCollection.get()
@@ -25,6 +33,7 @@ const mutations = {
 export default {
     namespaced: true,
     state,
+    // getters,
     mutations,
     actions,
 }

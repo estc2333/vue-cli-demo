@@ -5,7 +5,10 @@ import './styles/_reset.scss'
 import './styles/overwrite.scss'
 import store from './store'
 import './includes/firebase'
-import { auth } from '@/includes/firebase';
+import { auth } from '@/includes/firebase'
+import { Message } from 'element-ui'
+
+Vue.prototype.$message=Message
 
 Vue.config.productionTip = false
 let app

@@ -3,21 +3,25 @@
     <div class="header">
       <img src="../../assets/img/WechatIMG330.png">
     </div>
-    <section class="products-container" v-if="!isEmpty(productsInfo)">
-      <li v-for="(product, index) in productsInfo" :key="index" class="product">
-        <p class="name">{{ product.productName }}</p>
-        <img :src=product.productURL :alt=product.productName />
-      </li>
-    </section>
+    <template v-if="!isEmpty(productsInfo)">
+      <products-list :products="productsInfo" />
+    </template>
+    <el-empty v-else :image-size="200" />
   </div>
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import { mapActions, mapState } from "vuex"
 import { isEmpty } from "lodash-es"
+import { Empty } from "element-ui"
+import ProductsList from "../../components/ProductsList"
 
 export default {
   name: "shop",
+  components: {
+    ProductsList,
+    [Empty.name]: Empty,
+  },
   data() {
     return {
       isEmpty,
@@ -50,23 +54,6 @@ export default {
     img {
       width: 100%;
       height: 100%;
-    }
-  }
-
-  .products-container {
-    display: flex;
-    flex-wrap:wrap;
-
-    li {
-      flex: 1 0 21%;
-      margin: 5px;
-      background-color: #C1F4C5;
-      min-height: 200px;
-
-      img {
-        max-width: 100%;
-        max-height: 320px;
-      }
     }
   }
 }
