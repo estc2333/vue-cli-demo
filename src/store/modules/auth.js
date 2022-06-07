@@ -3,9 +3,22 @@ import { auth } from '@/includes/firebase';
 
 const state = {
     username: '',
+    showLoginForm: false,
+}
+
+const getters = {
+    isShowLoginForm(state) {
+        return state.showLoginForm
+    }
 }
 
 const actions = {
+    login({ commit }) {
+        commit(mutationTypes.LOGIN)
+    },
+    updateShowLoginForm({ commit }) {
+        commit(mutationTypes.UPDATE_SHOW_LOGIN_FORM)
+    },
     getUsername ({ commit }, res) {
         commit(mutationTypes.GET_USERNAME, res)
     },
@@ -18,6 +31,12 @@ const actions = {
 }
 
 const mutations = {
+    [mutationTypes.LOGIN] (state) {
+        state.showLoginForm = true
+    },
+    [mutationTypes.UPDATE_SHOW_LOGIN_FORM] (state) {
+        state.showLoginForm = !state.showLoginForm
+    },
     [mutationTypes.LOGOUT] (state) {
         state.username = ''
     },
@@ -28,6 +47,7 @@ const mutations = {
 export default {
     namespaced: true,
     state,
+    getters,
     mutations,
     actions,
 }

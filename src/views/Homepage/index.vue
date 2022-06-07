@@ -1,6 +1,6 @@
 <template>
   <div id="page-wrapper">
-    <nav-bar class="menu" :navList="navList" :default-active="defaultActive" @doAuth="doAuth" />
+    <nav-bar class="menu" :navList="navList" :default-active="defaultActive" @doAuth="login" />
     <div class="content">
       <auth v-if="isVisible" :isVisible.sync="isVisible" />
       <router-view></router-view>
@@ -11,18 +11,24 @@
 <script>
 import NavBar from '../../components/NavBar'
 import Auth from '../../components/AuthForm'
+import {mapActions, mapState, mapGetters} from "vuex";
 export default {
   name: "homepage",
   components: {
     NavBar,
     Auth,
   },
-  data() {
-    return {
-      isVisible: false,
-    }
-  },
   computed: {
+    ...mapState('auth',['showLoginForm']),
+    ...mapGetters('auth',['isShowLoginForm']),
+    isVisible: {
+      get() {
+        return this.showLoginForm
+      },
+      set () {
+        this.updateShowLoginForm()
+      }
+    },
     navList() {
       return ([
         {
@@ -44,8 +50,9 @@ export default {
     },
   },
   methods: {
+    ...mapActions('auth',['login', 'updateShowLoginForm']),
     doAuth() {
-      this.isVisible = true
+      this.login()
     },
   },
 }
