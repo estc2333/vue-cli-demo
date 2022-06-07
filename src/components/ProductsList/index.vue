@@ -22,10 +22,11 @@ export default {
 <style scoped lang="scss">
 .products-container {
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  padding: 10px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 300px);
   justify-content: space-between;
+  grid-gap: 20px;
+  padding: 10px 0;
 
   li {
     background-color: #fff;
@@ -33,9 +34,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    &:not(:last-of-type) {
-      margin-right: 10px;
-    }
 
     img {
       max-width: 100%;
