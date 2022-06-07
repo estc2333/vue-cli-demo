@@ -14,7 +14,7 @@
 import { mapActions, mapState } from "vuex"
 import { isEmpty } from "lodash-es"
 import { Empty } from "element-ui"
-import ProductsList from "../../components/ProductsList"
+import ProductsList from "@/components/ProductsList"
 
 export default {
   name: "shop",

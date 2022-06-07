@@ -14,11 +14,7 @@
     </section>
     <section>
       uploaded products
-      <li v-for="(product, index) in productsInfo" :key="index" class="product">
-        <img :src=product.productURL :alt=product.productName />
-        <p class="name">{{ product.productName }}</p>
-        <el-button @click="deleteImg(product.id)">delete</el-button>
-      </li>
+      <products-list :products="productsInfo" enableDelete />
     </section>
   </div>
 </template>
@@ -28,10 +24,12 @@ import { Upload, Button } from 'element-ui'
 import { storageRef, storage, productsCollection } from '@/includes/firebase'
 import { v4 } from "uuid"
 import { mapActions, mapState } from "vuex"
+import ProductsList from "@/components/ProductsList"
 
 export default {
   name: "manage",
   components: {
+    ProductsList,
     [Upload.name]: Upload,
     [Button.name]: Button,
   },
