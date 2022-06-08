@@ -36,7 +36,7 @@ export default {
   grid-template-columns: repeat(auto-fill, 300px);
   justify-content: space-between;
   grid-gap: 10px;
-  padding: 10px 0;
+  padding: 10px 0 40px;
 
   li {
     background-color: #fff;
@@ -62,6 +62,9 @@ export default {
       top: 0;
       font-size: 14px;
       cursor: pointer;
+      &:hover {
+        color: #00B4CF;
+      }
     }
   }
 }

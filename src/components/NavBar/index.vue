@@ -63,6 +63,7 @@ export default {
     },
     signOut () {
       this.logout()
+      this.$router.push('shop')
     },
   }
 }
@@ -75,9 +76,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  button {
-  }
 
   li {
     display:inline-block;

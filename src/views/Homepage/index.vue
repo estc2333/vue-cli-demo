@@ -68,8 +68,10 @@ export default {
   .content {
     height: 100%;
     padding: 25px 20px;
-    overflow: auto;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
-
 }
 </style>

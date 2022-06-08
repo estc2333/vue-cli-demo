@@ -1,8 +1,9 @@
 <template>
   <div>
     <section class="upload-wrapper">
-      <div> product name:
-        <input v-model="productName" placeholder="product name"/>
+      <div class="name">
+        <span>product name:</span>
+        <el-input v-model="productName" placeholder="product name" />
       </div>
       <el-upload
           action=""
@@ -11,20 +12,21 @@
           :show-file-list="false"
           :disabled="!productName"
       >
-        <button :disabled="!productName">upload
+        <el-button :disabled="!productName" size="mini">upload
           <i class="el-icon-upload el-icon--right"></i>
-        </button>
+        </el-button>
       </el-upload>
     </section>
+    <el-divider />
     <section>
-      uploaded products
+      uploaded products:
       <products-list :products="productsInfo" enableDelete @onDelete="handleDelete"/>
     </section>
   </div>
 </template>
 
 <script>
-import { Upload, Button } from 'element-ui'
+import { Upload, Button, Divider, Input } from 'element-ui'
 import { storageRef, storage } from '@/includes/firebase'
 import { mapActions, mapState } from "vuex"
 import ProductsList from "@/components/ProductsList"
@@ -35,6 +37,8 @@ export default {
     ProductsList,
     [Upload.name]: Upload,
     [Button.name]: Button,
+    [Divider.name]: Divider,
+    [Input.name]: Input,
   },
   data () {
     return {
@@ -92,16 +96,18 @@ export default {
 .upload-wrapper {
   display: flex;
 
+  .name {
+    display: flex;
+    align-items: center;
+
+    span {
+      width: 200px;
+    }
+  }
+
   button {
     border-radius: 10px;
-    border: solid 1px #1989fa;
-    background-color: #fff;
-    cursor: pointer;
     margin-left: 10px;
-    &:disabled {
-      cursor: not-allowed;
-      border: none;
-    }
   }
 }
 </style>
