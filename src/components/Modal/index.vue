@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="isVisible" :title="title">
+  <el-dialog class="wrapper" :visible.sync="modalVisible" :title="title">
     <el-form
         class="wrapper"
         label-width="120px"
@@ -7,7 +7,6 @@
         ref="contactForm"
         :rules="rules"
         :model="form"
-        @click="clickOutside"
     >
       <el-form-item label="姓名" prop="name">
         <el-input v-model="form.name" size="medium"></el-input>
@@ -43,10 +42,10 @@ export default {
     [FormItem.name]: FormItem,
     [Dialog.name]: Dialog,
   },
-  model: {
-    props: 'isVisible',
-    event: 'change',
-  },
+  // model: {
+  //   props: 'isVisible',
+  //   event: 'change',
+  // },
   props: {
     contactInfo: {
       type: Object,
@@ -89,10 +88,12 @@ export default {
   computed: {
     modalVisible: {
       get() {
+        console.log(this.isVisible, 'in')
         return this.isVisible
       },
       set(val) {
-        this.$emit('change', val)
+        console.log(this.isVisible, 'in set')
+        this.$emit('update:isVisible', val)
       }
     },
   },
@@ -113,16 +114,12 @@ export default {
       this.$refs.contactForm.validate((valid)=>{
         if(valid) {
           this.$emit('submit', this.form)
+          this.modalVisible = false
         }
       })
     },
-    clickOutside(event) {
-      if (!event.target.closest('.wrapper')) {
-        this.hide()
-      }
-    },
     hide() {
-      this.$emit('hideModal')
+      this.modalVisible = false
     },
     validateForm (fieldName, isValidField) {
       console.log(fieldName, isValidField, 'fieldName, isValidField')
@@ -139,8 +136,6 @@ export default {
 
 <style scoped lang="scss">
 .wrapper {
-  z-index: 2;
-  background-color: white;
   padding: 40px 40px 25px 40px;
 
   .el-input {

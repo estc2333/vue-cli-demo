@@ -1,11 +1,11 @@
 <template>
   <div v-if="!isEmpty(list)" class="contact-wrapper">
     <contact-modal
-        v-model="isVisible"
+        v-if="isVisible"
+        :isVisible.sync="isVisible"
         :contact-info="contactInfo"
         :title="title"
         @submit="onSubmit"
-        @hideModal="onHideModal"
     />
     <template>
       <div class="header">
@@ -68,7 +68,9 @@ export default {
       this.getContacts()
     },
     onAdd() {
+      console.log(this.isVisible, '1')
       this.isVisible = true
+      console.log(this.isVisible, '2')
       this.isEdit = false
       this.contactInfo = null
       this.title = '添加联系人'
@@ -90,9 +92,6 @@ export default {
       this.getContactList()
       this.isVisible = false
     },
-    onHideModal() {
-      this.isVisible = false
-    }
   },
   mounted() {
     this.getContactList()
