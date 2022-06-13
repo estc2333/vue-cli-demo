@@ -26,7 +26,7 @@
         <el-input type="password" v-model="form.confirmPassword"></el-input>
       </el-form-item>
       <div class="btn">
-        <el-button plain>Cancel</el-button>
+        <el-button plain @click="onCancel">Cancel</el-button>
         <el-button type="primary" :disabled="!isValid" @click="onSubmit">Submit</el-button>
       </div>
     </el-form>
@@ -50,6 +50,10 @@ export default {
     [Dialog.name]: Dialog,
     [Tabs.name]: Tabs,
     [TabPane.name]: TabPane,
+  },
+  model: {
+    prop: 'isVisible',
+    event: 'change',
   },
   props: {
     isVisible: {
@@ -110,7 +114,7 @@ export default {
         return this.isVisible
       },
       set(val) {
-        this.$emit('update:isVisible', val)
+        this.$emit('change', val)
       }
     }
   },
@@ -120,6 +124,9 @@ export default {
       if(this.isValid) {
         this.activeName === 'register' ? this.register(): this.login()
       }
+      this.isShow = false
+    },
+    onCancel() {
       this.isShow = false
     },
     register() {

@@ -1,8 +1,7 @@
 <template>
   <div v-if="!isEmpty(list)" class="contact-wrapper">
     <contact-modal
-        v-if="isVisible"
-        :isVisible="isVisible"
+        v-model="isVisible"
         :contact-info="contactInfo"
         :title="title"
         @submit="onSubmit"

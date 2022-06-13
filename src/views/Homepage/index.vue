@@ -2,7 +2,7 @@
   <div id="page-wrapper">
     <nav-bar class="menu" :navList="navList" :default-active="defaultActive" @doAuth="login" />
     <div class="content">
-      <auth v-if="isVisible" :isVisible.sync="isVisible" />
+      <auth v-if="isVisible" v-model="isVisible" />
       <router-view></router-view>
     </div>
   </div>

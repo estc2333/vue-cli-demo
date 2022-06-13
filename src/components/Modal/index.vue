@@ -43,6 +43,10 @@ export default {
     [FormItem.name]: FormItem,
     [Dialog.name]: Dialog,
   },
+  model: {
+    props: 'isVisible',
+    event: 'change',
+  },
   props: {
     contactInfo: {
       type: Object,
@@ -82,6 +86,16 @@ export default {
       isValid: false,
     }
   },
+  computed: {
+    modalVisible: {
+      get() {
+        return this.isVisible
+      },
+      set(val) {
+        this.$emit('change', val)
+      }
+    },
+  },
   watch: {
     form :{
       handler: function () {
@@ -119,11 +133,7 @@ export default {
     if (!isEmpty(this.contactInfo)) {
       this.form = {...this.form, ...this.contactInfo}
     }
-    window.addEventListener('mousedown', this.clickOutside)
   },
-  destroyed() {
-    window.removeEventListener('mousedown', this.clickOutside)
-  }
 }
 </script>
 
