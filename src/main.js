@@ -4,8 +4,8 @@ import router from './router/index'
 import './styles/_reset.scss'
 import './styles/overwrite.scss'
 import store from './store'
-import './includes/firebase'
-import { auth } from '@/includes/firebase'
+import './utils/firebase'
+import { auth } from '@/utils/firebase'
 import { Message } from 'element-ui'
 
 Vue.prototype.$message=Message

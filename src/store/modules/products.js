@@ -1,5 +1,5 @@
 import mutationTypes from "../mutationTypes";
-import { productsCollection } from '@/includes/firebase';
+import { productsCollection } from '@/utils/firebase';
 import { v4 } from "uuid"
 import {  Message } from 'element-ui'
 

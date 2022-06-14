@@ -1,5 +1,5 @@
 import mutationTypes from "../mutationTypes";
-import { auth } from '@/includes/firebase';
+import { auth } from '@/utils/firebase';
 
 const state = {
     username: '',

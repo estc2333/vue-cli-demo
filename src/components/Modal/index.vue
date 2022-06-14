@@ -22,7 +22,7 @@
       </el-form-item>
       <div class="btn">
         <el-button plain @click="hide">取消</el-button>
-        <el-button type="primary" :disabled="!isValid" @click="onSubmit">确定</el-button>
+        <el-button type="primary" @click="onSubmit">确定</el-button>
       </div>
     </el-form>
   </el-dialog>
@@ -42,16 +42,16 @@ export default {
     [FormItem.name]: FormItem,
     [Dialog.name]: Dialog,
   },
-  // model: {
-  //   props: 'isVisible',
-  //   event: 'change',
-  // },
+  model: {
+    prop: 'isShow',
+    event: 'change',
+  },
   props: {
     contactInfo: {
       type: Object,
       default: () => ({}),
     },
-    isVisible: {
+    isShow: {
       type: Boolean,
       default: false,
     },
@@ -88,26 +88,12 @@ export default {
   computed: {
     modalVisible: {
       get() {
-        console.log(this.isVisible, 'in')
-        return this.isVisible
+        return this.isShow
       },
       set(val) {
-        console.log(this.isVisible, 'in set')
-        this.$emit('update:isVisible', val)
+        this.$emit('change', val)
       }
     },
-  },
-  watch: {
-    form :{
-      handler: function () {
-        this.$nextTick(() => {
-          this.$refs.contactForm.validate((valid) => {
-            this.isValid = valid
-          })
-        })
-      },
-      deep: true,
-    }
   },
   methods: {
     onSubmit() {
@@ -120,10 +106,6 @@ export default {
     },
     hide() {
       this.modalVisible = false
-    },
-    validateForm (fieldName, isValidField) {
-      console.log(fieldName, isValidField, 'fieldName, isValidField')
-      this.isValid = isValidField
     },
   },
   mounted() {

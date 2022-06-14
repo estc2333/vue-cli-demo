@@ -2,7 +2,7 @@
   <div v-if="!isEmpty(list)" class="contact-wrapper">
     <contact-modal
         v-if="isVisible"
-        :isVisible.sync="isVisible"
+        v-model="isVisible"
         :contact-info="contactInfo"
         :title="title"
         @submit="onSubmit"
@@ -68,9 +68,7 @@ export default {
       this.getContacts()
     },
     onAdd() {
-      console.log(this.isVisible, '1')
       this.isVisible = true
-      console.log(this.isVisible, '2')
       this.isEdit = false
       this.contactInfo = null
       this.title = '添加联系人'

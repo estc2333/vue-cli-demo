@@ -35,7 +35,7 @@
 
 <script>
 import {Button, Input, TableColumn, Form, FormItem, Dialog, Tabs, TabPane, Message} from 'element-ui'
-import { auth, usersCollection } from '@/includes/firebase';
+import { auth, usersCollection } from '@/utils/firebase';
 import {mapActions} from "vuex";
 import firebase from 'firebase/app';
 
