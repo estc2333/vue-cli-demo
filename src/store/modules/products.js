@@ -1,20 +1,20 @@
-import mutationTypes from "../mutationTypes";
-import { productsCollection } from '@/utils/firebase';
-import { v4 } from "uuid"
-import {  Message } from 'element-ui'
+import mutationTypes from "../mutationTypes"
+import {productsCollection} from '@/utils/firebase'
+import {v4} from "uuid"
+import {Message} from 'element-ui'
 
 const state = {
     productsInfo: [],
 }
 
 const actions = {
-    getProductsInfo({ commit }) {
+    getProductsInfo({commit}) {
         return productsCollection.get()
             .then((res) => {
                 commit(mutationTypes.GET_PRODUCTS_INFO, res)
             })
     },
-    addProduct({ dispatch }, { productName, productURL }) {
+    addProduct({dispatch}, {productName, productURL}) {
         let id = v4()
         // add product info to firebase store
         return productsCollection.doc(id).set({
@@ -38,7 +38,7 @@ const actions = {
                 })
             })
     },
-    deleteProduct({ dispatch }, { id }) {
+    deleteProduct({dispatch}, {id}) {
         return productsCollection.doc(id).delete()
             .then(() => {
                 Message({

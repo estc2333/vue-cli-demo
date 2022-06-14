@@ -1,5 +1,5 @@
-import mutationTypes from "../mutationTypes";
-import { auth } from '@/utils/firebase';
+import mutationTypes from "../mutationTypes"
+import {auth} from '@/utils/firebase'
 
 const state = {
     username: '',
@@ -13,13 +13,13 @@ const getters = {
 }
 
 const actions = {
-    login({ commit }) {
+    login({commit}) {
         commit(mutationTypes.LOGIN)
     },
-    updateShowLoginForm({ commit }) {
+    updateShowLoginForm({commit}) {
         commit(mutationTypes.UPDATE_SHOW_LOGIN_FORM)
     },
-    getUsername ({ commit }, res) {
+    getUsername({commit}, res) {
         commit(mutationTypes.GET_USERNAME, res)
     },
     logout({commit}) {
@@ -31,16 +31,16 @@ const actions = {
 }
 
 const mutations = {
-    [mutationTypes.LOGIN] (state) {
+    [mutationTypes.LOGIN](state) {
         state.showLoginForm = true
     },
-    [mutationTypes.UPDATE_SHOW_LOGIN_FORM] (state) {
+    [mutationTypes.UPDATE_SHOW_LOGIN_FORM](state) {
         state.showLoginForm = !state.showLoginForm
     },
-    [mutationTypes.LOGOUT] (state) {
+    [mutationTypes.LOGOUT](state) {
         state.username = ''
     },
-    [mutationTypes.GET_USERNAME] (state, payload) {
+    [mutationTypes.GET_USERNAME](state, payload) {
         state.username = payload
     },
 }

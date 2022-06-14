@@ -19,9 +19,7 @@
 </template>
 
 <script>
-import contactsAPI from "../../api/contacts";
-import axios from "axios";
-
+import contactsAPI from "@/api/contacts"
 
 export default {
   name: "axiosNotes",

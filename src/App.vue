@@ -6,8 +6,8 @@
 
 <script>
 
-import {mapActions} from "vuex";
-import { auth } from '@/utils/firebase';
+import {mapActions} from "vuex"
+import {auth} from '@/utils/firebase'
 
 export default {
   name: 'App',

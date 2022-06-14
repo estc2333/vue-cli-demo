@@ -1,7 +1,7 @@
 <template>
   <div class="shop-wrapper">
     <div class="header">
-      <img src="../../assets/img/WechatIMG330.png">
+      <img src="@/assets/img/WechatIMG330.png">
     </div>
     <template v-if="!isEmpty(productsInfo)">
       <products-list :products="productsInfo" />
@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex"
-import { isEmpty } from "lodash-es"
-import { Empty } from "element-ui"
+import {mapActions, mapState} from "vuex"
+import {isEmpty} from "lodash-es"
+import {Empty} from "element-ui"
 import ProductsList from "@/components/ProductsList"
 
 export default {

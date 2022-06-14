@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import NavBar from '../../components/NavBar'
-import Auth from '../../components/AuthForm'
-import {mapActions, mapState, mapGetters} from "vuex";
+import NavBar from "@/components/NavBar"
+import Auth from "@/components/AuthForm"
+import {mapActions, mapState, mapGetters} from "vuex"
 export default {
   name: "homepage",
   components: {
@@ -25,7 +25,7 @@ export default {
       get() {
         return this.showLoginForm
       },
-      set () {
+      set() {
         this.updateShowLoginForm()
       }
     },
@@ -45,7 +45,7 @@ export default {
         },
       ])
     },
-    defaultActive () {
+    defaultActive() {
       return this.$route.name
     },
   },

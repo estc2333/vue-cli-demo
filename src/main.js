@@ -5,8 +5,8 @@ import './styles/_reset.scss'
 import './styles/overwrite.scss'
 import store from './store'
 import './utils/firebase'
-import { auth } from '@/utils/firebase'
-import { Message } from 'element-ui'
+import {auth} from '@/utils/firebase'
+import {Message} from 'element-ui'
 
 Vue.prototype.$message=Message
 

@@ -26,9 +26,9 @@
 </template>
 
 <script>
-import { Upload, Button, Divider, Input } from 'element-ui'
-import { storageRef, storage } from '@/utils/firebase'
-import { mapActions, mapState } from "vuex"
+import {Upload, Button, Divider, Input} from "element-ui"
+import {storageRef, storage} from "@/utils/firebase"
+import {mapActions, mapState} from "vuex"
 import ProductsList from "@/components/ProductsList"
 
 export default {

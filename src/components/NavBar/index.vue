@@ -19,8 +19,9 @@
 </template>
 
 <script>
-import { Button } from 'element-ui'
-import {mapActions, mapState} from "vuex";
+import {Button} from 'element-ui'
+import {mapActions, mapState} from "vuex"
+
 export default {
   name: "NavBar",
   components: {

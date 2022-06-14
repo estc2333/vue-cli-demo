@@ -34,7 +34,7 @@
 <script>
 import {Button, Table, TableColumn} from 'element-ui'
 import {mapState, mapActions} from 'vuex'
-import { isEmpty } from 'lodash-es'
+import {isEmpty} from 'lodash-es'
 import ContactModal from '@/components/Modal'
 
 export default {
