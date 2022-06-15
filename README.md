@@ -20,5 +20,17 @@ yarn build
 yarn lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Introduction
+This project is an online art shop where customers and view and manage paintings in this website.
+
+> vue + axios + firebase + elementUI
+ ### Features
+- Use Firebase as database and backend
+
+- Login / Logout
+
+- Permission Authentication
+
+- Add Paintings/Contacts
+
+- Delete Paintings/Contacts
